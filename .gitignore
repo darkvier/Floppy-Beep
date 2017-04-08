@@ -1,3 +1,15 @@
+build.gradle
+gdx-setup.jar
+gradle.properties
+gradlew
+gradlew.bat
+settings.gradlew
+gradle/
+
+
+
+
+
 ## Java
 
 *.class
