@@ -44,8 +44,8 @@ public class PlayerEntity extends Actor {
 
 		// Give it some shape.
 		PolygonShape box = new PolygonShape();
-		box.setAsBox(0.5f, 0.5f);
-		fixture = body.createFixture(box, 3);
+		box.setAsBox(0.5f, 0.5f); //Tamaño caja colision (metros)
+		fixture = body.createFixture(box, 3); // Peso del player
 		fixture.setUserData("player");
 		box.dispose();
 
@@ -90,8 +90,7 @@ public class PlayerEntity extends Actor {
 
 		// Velocidad de movimiento del jugador
 		if (alive && started) {
-			float speedY = body.getLinearVelocity().y;
-			body.setLinearVelocity(game.velocidad, speedY);
+			body.setLinearVelocity(game.velocidad, body.getLinearVelocity().y);
 		}
 	}
 
@@ -111,10 +110,13 @@ public class PlayerEntity extends Actor {
 
 
 	/** Detiene el muñeco al morir */
-	public void die() {
-		body.setLinearVelocity(0, 0);
+	public void die(String causa) {
+		if(causa.equals("techo")){
+			body.setLinearVelocity(body.getLinearVelocity().x, 0);
+		}
+		//body.setLinearVelocity(0, 0);
 		Vector2 position = body.getPosition();
-		body.applyLinearImpulse(0, -10, position.x, position.y, true);
+		//body.applyLinearImpulse(0, -10, position.x, position.y, true);
 		alive = false;
 	}
 

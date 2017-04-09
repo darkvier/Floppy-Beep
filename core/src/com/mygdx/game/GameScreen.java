@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.mygdx.game.entities.*;
 
 import static com.mygdx.game.Constants.*;
+import static java.lang.Math.abs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,12 +176,12 @@ class GameScreen extends BaseScreen {
 
 		// Si Player toca el techo muere
 		if (player.getY() + player.getHeight() >= stage.getHeight() && player.isAlive()) {
-			playerDie();
+			playerDie("techo");
 		}
 
 		// Si Player toca el suelo muere
 		if (player.getY() < 0 && player.isAlive()) {
-			playerDie();
+			playerDie("");
 		}
 
 		// Cambio textura player
@@ -230,9 +231,9 @@ class GameScreen extends BaseScreen {
 
 
 	// El motor detecta que el jugador a muerto
-	private void playerDie() {
+	private void playerDie(String causa) {
 		// Llamada al objeto del player
-		player.die();
+		player.die(causa);
 
 		// Detener sonidos
 		if (game.musica)
@@ -285,41 +286,43 @@ class GameScreen extends BaseScreen {
 				xMin = PARAM_DIFIC[df][2],
 				xMax = PARAM_DIFIC[df][3],
 				yMin = PARAM_DIFIC[df][4],
-				yMax = PARAM_DIFIC[df][5];
+				yMax = PARAM_DIFIC[df][5],
+				minDistY = PARAM_DIFIC[df][6],
+				minDifY = PARAM_DIFIC[df][7];
 
-		float a, x, y;
+		float a, x, y, xAnt, yAnt, distY = 0;
+
 		// Generador a
 		a = Funciones.generadorFloat(aMin, aMax);
 
-		// Generador x
-		if (muroList.size() < 2) {
-			x = 10;
-		} else {
-			float dist = Funciones.generadorFloat(xMin, xMax);
-			float ant = muroList.get(muroList.size() - 1).getX() / PIXELS_IN_METER;
-			x = ant + dist;
-		}
-
 		// Generador y
-		if (muroList.size() < 2) {
-			y = 10;
-		} else {
-			float dist = Funciones.generadorFloat(yMin, yMax);
-			float ant = muroList.get(muroList.size() - 2).getHeight() / PIXELS_IN_METER;
-			if (ant + dist + a / 2 > 18.0) {
-				y = ant - dist;
-			} else if (ant - dist - a / 2 < 0.0) {
-				y = ant + dist;
-			} else {
-				if (Funciones.generadorBoolean()) {
-					y = ant + dist;
-				} else {
-					y = ant - dist;
-				}
-			}
+		if(muroList.isEmpty()) {
+			y = Funciones.generadorFloat(yMin, yMax);
+		}else{
+			do {
+				y = Funciones.generadorFloat(yMin, yMax);
+				yAnt = (muroList.get(muroList.size() - 2).getHeight() + (muroList.get(muroList.size() - 1).getY() - muroList.get(muroList.size() - 2).getHeight()) / 2) / PIXELS_IN_METER;
+				distY = abs(y - yAnt);
+			}while(distY < minDifY);
 		}
 
-		// Genera muros
+
+		// Generador x
+		if (muroList.isEmpty()) {
+			x = 8;
+		} else {
+			xAnt = muroList.get(muroList.size() - 2).getX() / PIXELS_IN_METER;
+
+			if(distY < minDistY){
+				x = xAnt + distY + Funciones.generadorFloat(xMin, xMax);
+			}else{
+				x = xAnt + distY/* - Funciones.generadorFloat(xMin, xMax)*/;
+			}
+			//x = xAnt + distY + Funciones.generadorFloat(xMin, xMax);
+		}
+
+
+		// Generar los dos muros
 		factory.createMuros(world, x, y, a, muroList, stage);
 	}
 
@@ -352,7 +355,7 @@ class GameScreen extends BaseScreen {
 			if (areCollided(contact, "player", "muro")) {
 				// Solo los matamos si esta vivo...
 				if (player.isAlive()) {
-					playerDie();
+					playerDie("muro");
 				}
 			}
 		}

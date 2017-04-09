@@ -140,8 +140,6 @@ public class MainGame extends Game {
 		settingsScreen = new SettingsScreen(this);
 		creditsScreen = new CreditsScreen(this);
 
-		PIXELS_IN_METER = VIEWPORT_SIZE.y / 20;
-
 		System.out.println("VIEWPORT_SIZE :" + (int) VIEWPORT_SIZE.x + "x" + (int) VIEWPORT_SIZE.y);
 		System.out.println("Tamaño ventana: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
 		System.out.println("Monitor: " + Gdx.graphics.getDisplayMode());

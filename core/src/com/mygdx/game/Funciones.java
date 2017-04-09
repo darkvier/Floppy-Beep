@@ -8,7 +8,7 @@ import java.util.Random;
 
 class Funciones {
 
-	static Random rng = new Random();
+	static Random rng = new Random(System.nanoTime());
 
 	/**
 	 * Detecta ALT+ENTER para cambiar el modo pantalla completa-ventana

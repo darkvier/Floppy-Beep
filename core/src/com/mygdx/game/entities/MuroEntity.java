@@ -19,10 +19,10 @@ public class MuroEntity extends Actor {
 	private Body body;
 	private Fixture fixture;
 
+	/** Crea un Entity Muro (todo en metros) */
 	MuroEntity(World world, Texture textura, float x, float y, float width, float height) {
 		this.world = world;
 		this.textura = textura;
-
 
 		// Create body
 		BodyDef def = new BodyDef();
