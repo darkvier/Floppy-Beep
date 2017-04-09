@@ -2,7 +2,11 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -35,13 +39,17 @@ class RankScreen extends BaseScreen {
 
 	private Stage stage;
 	private Skin skin;
-	private Label HTTP_Error;
+	private Label HTTP_Error, HTTP_wait;
 	private Table[] tablaRank;
 	private Table tablaMain;
 	private Button botFacil, botNormal, botDificil;
+	private Animation<TextureRegion> myAnimation;
+	private float stateTime;
+	private SpriteBatch spriteBatch;
+	private float posXloading, posYloading;
+	private boolean loading;
 
 	RankScreen(final MainGame game) {
-		//TODO mostrar imagen cargando ranking
 		super(game);
 
 		stage = new Stage(new ExtendViewport(VIEWPORT_SIZE.x, VIEWPORT_SIZE.y));
@@ -73,6 +81,13 @@ class RankScreen extends BaseScreen {
 		back.setSize(200, 80);
 		back.setPosition(40, 50);
 		stage.addActor(back);
+
+
+		// Indicadores de carga
+		cargarAnimacion();
+		HTTP_wait = new Label("Conectando con el servidor del ranking", skin);
+		HTTP_wait.setPosition(posXloading-HTTP_wait.getWidth()/2, posYloading - 100);
+		stage.addActor(HTTP_wait);
 	}
 
 	@Override
@@ -86,9 +101,19 @@ class RankScreen extends BaseScreen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0.2f, 0.3f, 0.5f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		if(loading) {
+			stateTime += delta;
+			TextureRegion currentFrame = myAnimation.getKeyFrame(stateTime, true);
+			spriteBatch.begin();
+			spriteBatch.draw(currentFrame, posXloading, posYloading, 50, 50); // Draw current frame at (50, 50)
+			spriteBatch.end();
+		}
+
 		stage.act();
 		stage.draw();
 	}
+
 
 	@Override
 	public void hide() {
@@ -110,6 +135,8 @@ class RankScreen extends BaseScreen {
 	 * Manda consulta HTTP de ranking
 	 */
 	private void consultaHTTP() {
+		loading = true;
+		HTTP_wait.setVisible(true);
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(URL_RANKING).newBuilder();
 		urlBuilder.addQueryParameter("accion", "listar");
 		String url = urlBuilder.build().toString();
@@ -124,15 +151,19 @@ class RankScreen extends BaseScreen {
 		client.newCall(request).enqueue(new Callback() {
 			@Override
 			public void onFailure(Call call, IOException e) {
-				System.out.print("#######\nConsulta de ranking:");
+				System.out.print("#######\nConsulta de ranking: ");
+				loading = false;
+				HTTP_wait.setVisible(false);
 				System.out.println(e.toString());
 				mostrarErrorHTTP();
 			}
 
 			@Override
 			public void onResponse(Call call, final Response response) throws IOException {
-				String body = response.body().string();
 				System.out.print("#######\nConsulta de ranking: ");
+				String body = response.body().string();
+				loading = false;
+				HTTP_wait.setVisible(false);
 
 				if (!response.isSuccessful()) {
 					mostrarErrorHTTP();
@@ -231,9 +262,27 @@ class RankScreen extends BaseScreen {
 	private void mostrarErrorHTTP() {
 		BitmapFont labelFont = skin.get("default-font", BitmapFont.class);
 		labelFont.getData().markupEnabled = true;
+
 		HTTP_Error = new Label("[RED]Error al obtener datos del ranking", skin);
-		//HTTP_Error.setFontScale(1.2f);
-		HTTP_Error.setPosition(stage.getWidth() / 2 - HTTP_Error.getWidth() / 2, stage.getHeight() - 200);
+		HTTP_Error.setPosition(stage.getWidth() / 2 - HTTP_Error.getWidth() / 2, posYloading - 100);
 		stage.addActor(HTTP_Error);
+	}
+
+
+	/** Carga las imagenes que animan al player vivo y muerto */
+	@SuppressWarnings("unchecked")
+	private void cargarAnimacion() {
+		TextureRegion[] loadingRegion = new TextureRegion[12];
+		for (int i = 0; i < loadingRegion.length; i++) {
+			loadingRegion[i] = new TextureRegion((Texture) game.getManager().get("loading/frame-" + (i + 1) + ".gif"));
+		}
+		myAnimation = new Animation<TextureRegion>(0.1f, loadingRegion);
+		myAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+		spriteBatch = new SpriteBatch();
+		stateTime = 0f;
+
+		posXloading = stage.getWidth() / 2;
+		posYloading = stage.getHeight() - (stage.getHeight() / 3);
 	}
 }

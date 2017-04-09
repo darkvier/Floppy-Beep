@@ -66,6 +66,18 @@ public class MainGame extends Game {
 		manager.load("audio/song.ogg", Music.class); //TODO musica fondo
 		manager.load("audio/gameOver.mp3", Music.class);
 		manager.load("new.png", Texture.class);
+		manager.load("loading/frame-1.gif", Texture.class);
+		manager.load("loading/frame-2.gif", Texture.class);
+		manager.load("loading/frame-3.gif", Texture.class);
+		manager.load("loading/frame-4.gif", Texture.class);
+		manager.load("loading/frame-5.gif", Texture.class);
+		manager.load("loading/frame-6.gif", Texture.class);
+		manager.load("loading/frame-7.gif", Texture.class);
+		manager.load("loading/frame-8.gif", Texture.class);
+		manager.load("loading/frame-9.gif", Texture.class);
+		manager.load("loading/frame-10.gif", Texture.class);
+		manager.load("loading/frame-11.gif", Texture.class);
+		manager.load("loading/frame-12.gif", Texture.class);
 
 		// Cargar configuracion en memoria
 		settings = Gdx.app.getPreferences("MiConfig");
@@ -173,7 +185,6 @@ public class MainGame extends Game {
 		this.fullScreen = settings.getBoolean("fullScreen", true);
 
 		this.volumen = settings.getFloat("volumen", 75f);
-		//TODO ajustar por defecto ¿1f?
 		this.impulso = settings.getFloat("impulso", 20f);
 		this.velocidad = settings.getFloat("velocidad", 4f);
 
