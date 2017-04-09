@@ -3,7 +3,7 @@ gdx-setup.jar
 gradle.properties
 gradlew
 gradlew.bat
-settings.gradlew
+settings.gradle
 gradle/
 
 
