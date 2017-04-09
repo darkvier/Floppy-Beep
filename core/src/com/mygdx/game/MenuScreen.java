@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.mygdx.game.entities.PlayerEntity;
 
 import static com.mygdx.game.Constants.PIXELS_IN_METER;
 import static com.mygdx.game.Constants.VIEWPORT_SIZE;
@@ -21,7 +22,6 @@ import static com.mygdx.game.Constants.VIEWPORT_SIZE;
 
 class MenuScreen extends BaseScreen {
 
-	//TODO fondo animado
 	private Stage stage;
 	private Skin skin;
 	private Label nickText;
@@ -34,7 +34,7 @@ class MenuScreen extends BaseScreen {
 		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 		TextButton play = new TextButton("Jugar", skin);
-		System.out.println(Gdx.app.getType());
+		/*System.out.println(Gdx.app.getType());
 		switch (Gdx.app.getType()) {
 			case Android:
 				PIXELS_IN_METER += 20;
@@ -44,13 +44,13 @@ class MenuScreen extends BaseScreen {
 				break;
 			case HeadlessDesktop:
 				break;
-		}
+		}*/
 		TextButton rank = new TextButton("Ranking", skin);
 		TextButton settings = new TextButton("Opciones", skin);
 		TextButton credits = new TextButton("Creditos", skin);
 		nickText = new Label(game.nickname, skin);
 		Image logo = new Image(game.getManager().get("logo.png", Texture.class));
-
+		Background backGround = new Background(game);
 
 		// Funciones a ejecutar cuando se pulsan los distintos botones
 		play.addCaptureListener(new ChangeListener() {
@@ -95,6 +95,7 @@ class MenuScreen extends BaseScreen {
 		credits.setPosition(220, 10);
 
 		// Añadir al Stage
+		stage.addActor(backGround);
 		stage.addActor(logo);
 		stage.addActor(play);
 		stage.addActor(rank);
