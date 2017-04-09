@@ -62,9 +62,9 @@ class GameScreen extends BaseScreen {
 
 
 		sprite = new Sprite(imgTextureRegion);
-		//TODO sky no se muestra con resoluciones pequeñas (setScale() < 1
-		// backgroundTexture.getHeight() == 558
-		sprite.setScale(stage.getHeight() / backgroundTexture.getHeight());
+		// Si la screen es mayor que la textura, escalar textura
+		if (stage.getHeight() > backgroundTexture.getHeight())
+			sprite.setScale(stage.getHeight() / backgroundTexture.getHeight());
 		sprite.setCenterY(stage.getHeight() / 2);
 		batch = new SpriteBatch();
 
