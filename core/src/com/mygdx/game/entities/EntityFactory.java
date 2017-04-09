@@ -51,7 +51,7 @@ public class EntityFactory {
 
 		// Datos muro superior
 		float ySup = t + (apertura / 2);
-		float heightSup = stageHeight - ySup;
+		float heightSup = stageHeight - ySup + 2;
 
 		// Crear muros y añadir a los 2 arrays
 		Object[] res = new Object[2];
