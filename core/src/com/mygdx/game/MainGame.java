@@ -129,6 +129,7 @@ public class MainGame extends Game {
 		manager.load("loading/frame-10.gif", Texture.class);
 		manager.load("loading/frame-11.gif", Texture.class);
 		manager.load("loading/frame-12.gif", Texture.class);
+		manager.load("pipe.png", Texture.class);
 	}
 
 	/** Crea las Stages y muestra el menu */

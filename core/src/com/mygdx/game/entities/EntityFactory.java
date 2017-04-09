@@ -42,7 +42,7 @@ public class EntityFactory {
 	 * @return Object[2] con los dos muros creados
 	 */
 	public Object[] createMuros(World world, float x, float t, float apertura, List<MuroEntity> muroList, Stage stage) {
-		Texture floorTexture = manager.get("floor.png");
+		Texture floorTexture = manager.get("pipe.png");
 		float stageHeight = VIEWPORT_SIZE.y / PIXELS_IN_METER;
 
 		// Datos para muro inferior
