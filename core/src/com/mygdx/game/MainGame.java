@@ -44,6 +44,57 @@ public class MainGame extends Game {
 	public void create() {
 		// Carga asincrona de los Assets
 		manager = new AssetManager();
+		cargarAssets();
+
+		// Cargar configuracion en memoria
+		settings = Gdx.app.getPreferences("MiConfig");
+		cargarConfig();
+
+		// Mientras carga, mostrar esta pantalla
+		loadingScreen = new LoadingScreen(this);
+		setScreen(loadingScreen);
+
+		scoreRecord = new int[3];
+		consultaHTTPRanking();
+	}
+
+
+	/** Carga la conf del "disco" en memoria, en caso de no existir conf, usa valores predefinidos */
+	void cargarConfig() {
+		this.nickname = settings.getString("nickname", "");
+		this.dificultad = settings.getString("dificultad", "Normal");
+		switch (dificultad.charAt(0)) {
+			case 'F':
+				this.dificultadInt = 0;
+				break;
+			case 'N':
+				this.dificultadInt = 1;
+				break;
+			case 'D':
+				this.dificultadInt = 2;
+				break;
+		}
+
+		this.efectos = settings.getBoolean("efectos", true);
+		this.musica = settings.getBoolean("musica", true);
+		this.fullScreen = settings.getBoolean("fullScreen", true);
+
+		this.volumen = settings.getFloat("volumen", 75f);
+		this.impulso = settings.getFloat("impulso", 20f);
+		this.velocidad = settings.getFloat("velocidad", 4f);
+
+		// Modo pantalla completa - ventana
+		Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode();
+		if (fullScreen) {
+			Gdx.graphics.setFullscreenMode(displayMode);
+		} else {
+			Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
+		}
+	}
+
+
+	/** Indica los ficheros de assets a cargar en memoria */
+	private void cargarAssets() {
 		manager.load("skin/uiskin.json", Skin.class);
 		manager.load("bird/frame-1.png", Texture.class);
 		manager.load("bird/frame-2.png", Texture.class);
@@ -61,9 +112,9 @@ public class MainGame extends Game {
 		manager.load("floor.png", Texture.class);
 		manager.load("gameover.png", Texture.class);
 		manager.load("logo.png", Texture.class);
-		manager.load("audio/die.ogg", Sound.class); //TODO sonido muerte
-		manager.load("audio/jump.ogg", Sound.class); //TODO sonido salto
-		manager.load("audio/song.ogg", Music.class); //TODO musica fondo
+		manager.load("audio/die.ogg", Sound.class); //TODO cambiar sonido muerte
+		manager.load("audio/jump.ogg", Sound.class); //TODO cambiarsonido salto
+		manager.load("audio/song.ogg", Music.class); //TODO cambiarmusica fondo
 		manager.load("audio/gameOver.mp3", Music.class);
 		manager.load("new.png", Texture.class);
 		manager.load("loading/frame-1.gif", Texture.class);
@@ -78,17 +129,28 @@ public class MainGame extends Game {
 		manager.load("loading/frame-10.gif", Texture.class);
 		manager.load("loading/frame-11.gif", Texture.class);
 		manager.load("loading/frame-12.gif", Texture.class);
+	}
 
-		// Cargar configuracion en memoria
-		settings = Gdx.app.getPreferences("MiConfig");
-		cargarConfig();
+	/** Crea las Stages y muestra el menu */
+	void finishLoading() throws IOException {
+		menuScreen = new MenuScreen(this);
+		gameScreen = new GameScreen(this);
+		gameOverScreen = new GameOverScreen(this);
+		rankScreen = new RankScreen(this);
+		settingsScreen = new SettingsScreen(this);
+		creditsScreen = new CreditsScreen(this);
 
-		// Mientras carga, mostrar esta pantalla
-		loadingScreen = new LoadingScreen(this);
-		setScreen(loadingScreen);
+		PIXELS_IN_METER = VIEWPORT_SIZE.y / 20;
 
-		scoreRecord = new int[3];
-		consultaHTTPRanking();
+		System.out.println("VIEWPORT_SIZE :" + (int) VIEWPORT_SIZE.x + "x" + (int) VIEWPORT_SIZE.y);
+		System.out.println("Tamaño ventana: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
+		System.out.println("Monitor: " + Gdx.graphics.getDisplayMode());
+		System.out.println("PIXELS_IN_METER :" + (int) PIXELS_IN_METER);
+
+
+		// Pantalla Principal del juego
+		setScreen(menuScreen);
+		//setScreen(gameScreen);
 	}
 
 	/** Ejecuta consulta HTTP de ranking */
@@ -161,62 +223,6 @@ public class MainGame extends Game {
 					break;
 			}
 		}
-	}
-
-
-	/** Carga la conf del "disco" en memoria, en caso de no existir conf, usa valores predefinidos */
-	void cargarConfig() {
-		this.nickname = settings.getString("nickname", "");
-		this.dificultad = settings.getString("dificultad", "Normal");
-		switch (dificultad.charAt(0)) {
-			case 'F':
-				this.dificultadInt = 0;
-				break;
-			case 'N':
-				this.dificultadInt = 1;
-				break;
-			case 'D':
-				this.dificultadInt = 2;
-				break;
-		}
-
-		this.efectos = settings.getBoolean("efectos", true);
-		this.musica = settings.getBoolean("musica", true);
-		this.fullScreen = settings.getBoolean("fullScreen", true);
-
-		this.volumen = settings.getFloat("volumen", 75f);
-		this.impulso = settings.getFloat("impulso", 20f);
-		this.velocidad = settings.getFloat("velocidad", 4f);
-
-		// Modo pantalla completa - ventana
-		Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode();
-		if (fullScreen) {
-			Gdx.graphics.setFullscreenMode(displayMode);
-		} else {
-			Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
-		}
-	}
-
-	/** Crea las Stages y muestra el menu */
-	void finishLoading() throws IOException {
-		menuScreen = new MenuScreen(this);
-		gameScreen = new GameScreen(this);
-		gameOverScreen = new GameOverScreen(this);
-		rankScreen = new RankScreen(this);
-		settingsScreen = new SettingsScreen(this);
-		creditsScreen = new CreditsScreen(this);
-
-		PIXELS_IN_METER = VIEWPORT_SIZE.y / 20;
-
-		System.out.println("VIEWPORT_SIZE :" + (int) VIEWPORT_SIZE.x + "x" + (int) VIEWPORT_SIZE.y);
-		System.out.println("Tamaño ventana: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
-		System.out.println("Monitor: " + Gdx.graphics.getDisplayMode());
-		System.out.println("PIXELS_IN_METER :" + (int) PIXELS_IN_METER);
-
-
-		// Pantalla Principal del juego
-		setScreen(menuScreen);
-		//setScreen(gameScreen);
 	}
 
 	public AssetManager getManager() {
