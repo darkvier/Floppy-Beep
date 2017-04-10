@@ -46,6 +46,11 @@ public class MainGame extends Game {
 		manager = new AssetManager();
 		cargarAssets();
 
+		Funciones.game = this;
+
+		// Se apropia de la tecla BACK de android
+		Gdx.input.setCatchBackKey(true);
+
 		// Cargar configuracion en memoria
 		settings = Gdx.app.getPreferences("MiConfig");
 		cargarConfig();

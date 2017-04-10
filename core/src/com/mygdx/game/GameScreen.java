@@ -136,6 +136,7 @@ class GameScreen extends BaseScreen {
 
 		// Texto "pulsa para comenzar"
 		stage.addActor(pressStart);
+		InputManage.set(this, game, stage);
 	}
 
 	/** Las cosas de pantalla se actualizan aqui muchas veces por segundo */
@@ -143,6 +144,7 @@ class GameScreen extends BaseScreen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		batch.begin();
 		sprite.draw(batch);
 		batch.setProjectionMatrix(stage.getCamera().combined);
@@ -194,8 +196,6 @@ class GameScreen extends BaseScreen {
 		// Actualizar y mostrar puntuacion
 		showPoints();
 
-		Funciones.screenModeListener(game);
-
 		// Ultimo paso del metodo obligatoriamente
 		stage.draw();
 	}
@@ -206,6 +206,7 @@ class GameScreen extends BaseScreen {
 	 */
 	@Override
 	public void hide() {
+		Gdx.input.setInputProcessor(null);
 		stage.clear();
 		player.detach();
 		for (TuboEntity m : tuboList) {

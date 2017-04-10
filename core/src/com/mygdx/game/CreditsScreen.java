@@ -48,24 +48,16 @@ class CreditsScreen extends BaseScreen {
 
 	@Override
 	public void show() {
-		// Now this is important. If you want to be able to click the button, you have to make
-		// the Input system handle input using this Stage. Stages are also InputProcessors. By
-		// making the Stage the default input processor for this game, it is now possible to
-		// click on buttons and even to type on input fields.
-		Gdx.input.setInputProcessor(stage);
+		InputManage.set(this, game, stage);
 	}
 
 	@Override
 	public void hide() {
-		// When the screen is no more visible, you have to remember to unset the input processor.
-		// Otherwise, input might act weird, because even if you aren't using this screen, you are
-		// still using the stage for handling input.
 		Gdx.input.setInputProcessor(null);
 	}
 
 	@Override
 	public void dispose() {
-		// Dispose assets.
 		stage.dispose();
 		skin.dispose();
 	}
@@ -74,6 +66,7 @@ class CreditsScreen extends BaseScreen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0.2f, 0.3f, 0.5f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		stage.act();
 		stage.draw();
 	}

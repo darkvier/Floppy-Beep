@@ -9,10 +9,10 @@ public class Constants {
 	static final Vector2 PLAYER_POS = new Vector2(1f, 10f);
 
 	//public static final Vector2 VIEWP_MIN_SIZE = new Vector2(640, 360); //16:9
-	public static final Vector2 VIEWP_MIN_SIZE = new Vector2(720, 480); //16:9
+	//public static final Vector2 VIEWP_MIN_SIZE = new Vector2(720, 480); //16:9
 	// public static final Vector2 VIEWP_MIN_SIZE = new Vector2(800, 480);
 	//public static final Vector2 VIEWP_MIN_SIZE = new Vector2(960, 540); //16:9
-	//public static final Vector2 VIEWP_MIN_SIZE = new Vector2(1280, 720);
+	public static final Vector2 VIEWP_MIN_SIZE = new Vector2(1280, 720);
 	//public static final Vector2 VIEWP_MIN_SIZE = new Vector2(1366, 768); //16:9
 	//public static final Vector2 VIEWP_MIN_SIZE = new Vector2(1920, 1080); //16:9
 

@@ -92,8 +92,6 @@ class MenuScreen extends BaseScreen {
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
-
 		// Si no se ha definido el nombre se pide
 		if (game.nickname.equals("")) {
 			askNickname();
@@ -102,16 +100,16 @@ class MenuScreen extends BaseScreen {
 			nickText.pack();
 			nickText.setPosition(stage.getWidth() - nickText.getWidth() - 20, 10);
 		}
+		InputManage.set(this, game, stage);
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0.2f, 0.3f, 0.5f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		stage.act();
 		stage.draw();
-
-		Funciones.screenModeListener(game);
 	}
 
 	@Override
@@ -125,6 +123,12 @@ class MenuScreen extends BaseScreen {
 		skin.dispose();
 	}
 
+
+	/** Detecta cuando se pulsa la tecla atras o escape y cierra el juego */
+	private void detectarEscape() {
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK) || Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+			Gdx.app.exit();
+	}
 
 	/** Muestra un popup pidiendo al usuario que introduzca su nombre */
 	private void askNickname() {

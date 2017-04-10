@@ -160,7 +160,17 @@ class SettingsScreen extends BaseScreen {
 		velocidadSlid.setValue(game.velocidad);
 		fullScreenCheck.setChecked(game.fullScreen);
 
-		Gdx.input.setInputProcessor(stage);
+		InputManage.set(this, game, stage);
+	}
+
+
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0.2f, 0.3f, 0.5f, 1f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		stage.act();
+		stage.draw();
 	}
 
 	@Override
@@ -172,14 +182,6 @@ class SettingsScreen extends BaseScreen {
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
-	}
-
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0.2f, 0.3f, 0.5f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act();
-		stage.draw();
 	}
 
 	/** Guarda la conf en disco y la carga en el MainGame */

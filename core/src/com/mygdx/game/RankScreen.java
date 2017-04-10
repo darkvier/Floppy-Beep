@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -35,7 +37,7 @@ import okhttp3.Response;
 import static com.mygdx.game.Constants.URL_RANKING;
 import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 
-class RankScreen extends BaseScreen {
+class RankScreen extends BaseScreen implements InputProcessor {
 
 	private Stage stage;
 	private Skin skin;
@@ -92,8 +94,8 @@ class RankScreen extends BaseScreen {
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
 		consultaHTTP();
+		InputManage.set(this, game, stage);
 	}
 
 
@@ -284,5 +286,49 @@ class RankScreen extends BaseScreen {
 
 		posXloading = stage.getWidth() / 2;
 		posYloading = stage.getHeight() - (stage.getHeight() / 3);
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+
+		if (keycode == Input.Keys.BACK) {
+			game.setScreen(game.menuScreen);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
 	}
 }

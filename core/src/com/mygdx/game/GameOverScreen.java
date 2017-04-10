@@ -80,9 +80,30 @@ class GameOverScreen extends BaseScreen {
 	public void show() {
 		mostrarPuntuacion();
 		enviarPuntuacion();
-
 		musica.play();
-		Gdx.input.setInputProcessor(stage);
+		InputManage.set(this, game, stage);
+	}
+
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		stage.act();
+		stage.draw();
+	}
+
+	@Override
+	public void hide() {
+		Gdx.input.setInputProcessor(null);
+		imgRecord.remove();
+		musica.stop();
+	}
+
+	@Override
+	public void dispose() {
+		skin.dispose();
+		stage.dispose();
 	}
 
 	private void mostrarPuntuacion() {
@@ -104,30 +125,6 @@ class GameOverScreen extends BaseScreen {
 			imgRecord.setPosition(posX, posY);
 			stage.addActor(imgRecord);
 		}
-	}
-
-	@Override
-	public void hide() {
-		imgRecord.remove();
-
-		musica.stop();
-		Gdx.input.setInputProcessor(null);
-	}
-
-	@Override
-	public void dispose() {
-		// Dispose assets.
-		skin.dispose();
-		stage.dispose();
-	}
-
-	@Override
-	public void render(float delta) {
-		// Just render things.
-		Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act();
-		stage.draw();
 	}
 
 	private void enviarPuntuacion() {

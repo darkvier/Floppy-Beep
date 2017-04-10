@@ -2,30 +2,27 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.Input;
 
 import java.util.Random;
 
 class Funciones {
 
-	static Random rng = new Random(System.nanoTime());
+	private static Random rng = new Random(System.nanoTime());
+	public static MainGame game;
 
 	/**
-	 * Detecta ALT+ENTER para cambiar el modo pantalla completa-ventana
+	 * Cambia el modo pantalla completa-ventana
 	 */
-	static void screenModeListener(MainGame game) {
-		if (Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT) && Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-			Graphics.DisplayMode currentMode = Gdx.graphics.getDisplayMode();
-			if (game.fullScreen) {
-				Gdx.graphics.setWindowedMode(currentMode.width / 2, currentMode.height / 2);
-			} else {
-				Gdx.graphics.setFullscreenMode(currentMode);
-			}
-			game.fullScreen = !game.fullScreen;
-			game.settings.putBoolean("fullScreen", game.fullScreen);
+	static void screenModeChange() {
+		Graphics.DisplayMode currentMode = Gdx.graphics.getDisplayMode();
+		if (game.fullScreen) {
+			Gdx.graphics.setWindowedMode(currentMode.width / 2, currentMode.height / 2);
+		} else {
+			Gdx.graphics.setFullscreenMode(currentMode);
 		}
+		game.fullScreen = !game.fullScreen;
+		game.settings.putBoolean("fullScreen", game.fullScreen);
 	}
-
 
 	static float generadorFloat(float low, float high) {
 		return rng.nextFloat() * (high - low) + low;
@@ -38,5 +35,4 @@ class Funciones {
 	static boolean generadorBoolean() {
 		return rng.nextBoolean();
 	}
-
 }
