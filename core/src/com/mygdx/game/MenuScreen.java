@@ -14,9 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.mygdx.game.entities.PlayerEntity;
 
-import static com.mygdx.game.Constants.PIXELS_IN_METER;
 import static com.mygdx.game.Constants.VIEWPORT_SIZE;
 
 
@@ -30,27 +28,15 @@ class MenuScreen extends BaseScreen {
 		super(game);
 
 		stage = new Stage(new ExtendViewport(VIEWPORT_SIZE.x, VIEWPORT_SIZE.y));
-
 		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 		TextButton play = new TextButton("Jugar", skin);
-		/*System.out.println(Gdx.app.getType());
-		switch (Gdx.app.getType()) {
-			case Android:
-				PIXELS_IN_METER += 20;
-				System.out.println(PIXELS_IN_METER);
-				break;
-			case Desktop:
-				break;
-			case HeadlessDesktop:
-				break;
-		}*/
 		TextButton rank = new TextButton("Ranking", skin);
 		TextButton settings = new TextButton("Opciones", skin);
 		TextButton credits = new TextButton("Creditos", skin);
 		nickText = new Label(game.nickname, skin);
 		Image logo = new Image(game.getManager().get("logo.png", Texture.class));
-		Background backGround = new Background(game);
+		Background backGround = new Background(game, stage, "sky/sky.png");
 
 		// Funciones a ejecutar cuando se pulsan los distintos botones
 		play.addCaptureListener(new ChangeListener() {
@@ -119,6 +105,16 @@ class MenuScreen extends BaseScreen {
 	}
 
 	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0.2f, 0.3f, 0.5f, 1f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		stage.act();
+		stage.draw();
+
+		Funciones.screenModeListener(game);
+	}
+
+	@Override
 	public void hide() {
 		Gdx.input.setInputProcessor(null);
 	}
@@ -127,16 +123,6 @@ class MenuScreen extends BaseScreen {
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
-	}
-
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0.2f, 0.3f, 0.5f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act();
-		stage.draw();
-
-		Funciones.screenModeListener(game);
 	}
 
 
