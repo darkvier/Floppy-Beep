@@ -109,7 +109,6 @@ public class MainGame extends Game {
 		manager.load("bird/gotHit/frame-1.png", Texture.class);
 		manager.load("bird/gotHit/frame-2.png", Texture.class);
 		manager.load("sky/sky.png", Texture.class);
-		manager.load("floor.png", Texture.class);
 		manager.load("gameover.png", Texture.class);
 		manager.load("logo.png", Texture.class);
 		manager.load("audio/die.ogg", Sound.class); //TODO cambiar sonido muerte
@@ -130,6 +129,7 @@ public class MainGame extends Game {
 		manager.load("loading/frame-11.gif", Texture.class);
 		manager.load("loading/frame-12.gif", Texture.class);
 		manager.load("pipe.png", Texture.class);
+		manager.load("pipeTop.png", Texture.class);
 	}
 
 	/** Crea las Stages y muestra el menu */

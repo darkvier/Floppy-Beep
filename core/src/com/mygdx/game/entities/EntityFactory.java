@@ -42,7 +42,8 @@ public class EntityFactory {
 	 * @return Object[2] con los dos muros creados
 	 */
 	public Object[] createMuros(World world, float x, float t, float apertura, List<MuroEntity> muroList, Stage stage) {
-		Texture floorTexture = manager.get("pipe.png");
+		Texture pipe = manager.get("pipe.png");
+		Texture pipeTop = manager.get("pipeTop.png");
 		float stageHeight = VIEWPORT_SIZE.y / PIXELS_IN_METER;
 
 		// Datos para muro inferior
@@ -55,8 +56,8 @@ public class EntityFactory {
 
 		// Crear muros y añadir a los 2 arrays
 		Object[] res = new Object[2];
-		res[0] = new MuroEntity(world, floorTexture, x, yInf, ANCHO_MURO, heightInf);
-		res[1] = new MuroEntity(world, floorTexture, x, ySup, ANCHO_MURO, heightSup);
+		res[0] = new MuroEntity(world, pipe, pipeTop, x, yInf, ANCHO_MURO, heightInf);
+		res[1] = new MuroEntity(world, pipe, pipeTop, x, ySup, ANCHO_MURO, heightSup);
 		muroList.add((MuroEntity) res[0]);
 		muroList.add((MuroEntity) res[1]);
 		stage.addActor((MuroEntity) res[0]);

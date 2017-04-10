@@ -14,26 +14,25 @@ import static com.mygdx.game.Constants.PIXELS_IN_METER;
 /** Clase con las propiedades y metodos de los muros */
 public class MuroEntity extends Actor {
 
-	private Texture textura;
+	private final Texture texturaTubo, texturaTop;
 	private World world;
 	private Body body;
 	private Fixture fixture;
 
 	/** Crea un Entity Muro (todo en metros) */
-	MuroEntity(World world, Texture textura, float x, float y, float width, float height) {
+	MuroEntity(World world, Texture texturaTubo, Texture texturaTop, float x, float y, float width, float height) {
 		this.world = world;
-		this.textura = textura;
+		this.texturaTubo = texturaTubo;
+		this.texturaTop = texturaTop;
 
 		// Create body
 		BodyDef def = new BodyDef();
-		//def.position.set(x + width / 2, y - 0.5f);
-		def.position.set(x + width / 2, y + height / 2); // Center in the coordinates given
+		def.position.set(x + width / 2, y + height / 2);
 		body = world.createBody(def);
 
 		// Give it a box shape.
 		PolygonShape box = new PolygonShape();
 		box.setAsBox(width / 2, height / 2);
-		//box.setAsBox(width / 2, 0.5f);
 		fixture = body.createFixture(box, 1);
 		fixture.setUserData("muro");
 		box.dispose();
@@ -45,8 +44,25 @@ public class MuroEntity extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		// Render texture
-		batch.draw(textura, getX(), getY(), getWidth(), getHeight());
+
+		// Dibujar tubo
+		batch.draw(texturaTubo, getX(), getY(), getWidth(), getHeight());
+
+		// Coordenadas parte ancha del tubo dependiendo si es superior o inferior
+		float x, y,
+				width = getWidth() + 0.5f * PIXELS_IN_METER,
+				height = 1 * PIXELS_IN_METER;
+
+		// Tubo de la parte inferior
+		if (getY() == 0) {
+			x = getX() - 0.25f * PIXELS_IN_METER;
+			y = getHeight() - 1 * PIXELS_IN_METER;
+		} else {
+			//Tubo de la parte superior
+			x = getX() - 0.25f * PIXELS_IN_METER;
+			y = getY();
+		}
+		batch.draw(texturaTop, x, y, width, height);
 	}
 
 	public void detach() {
