@@ -94,7 +94,6 @@ class GameScreen extends BaseScreen {
 		// Texto "pulsa para comenzar"
 		pressStart = new Label("Pulsa para comenzar", skin);
 		pressStart.setPosition(stage.getWidth() / 2 - pressStart.getWidth() / 2, stage.getHeight() / 2 - 100);
-		stage.addActor(pressStart);
 	}
 
 
@@ -132,8 +131,7 @@ class GameScreen extends BaseScreen {
 		while (tuboList.get(tuboList.size() - 1).getX() < stage.getCamera().position.x + stage.getWidth());
 
 		// Texto "pulsa para comenzar"
-		pressStart.setVisible(true);
-		pressStart.toFront();
+		stage.addActor(pressStart);
 	}
 
 	/** Las cosas de pantalla se actualizan aqui muchas veces por segundo */
@@ -151,7 +149,7 @@ class GameScreen extends BaseScreen {
 
 		// Si el jugador pulsa, la partida se inicia, se oculta el texto "Press to start"
 		if (player.isStarted())
-			pressStart.setVisible(false);
+			pressStart.remove();
 
 		// Update the stage. This will update the player speed.
 		stage.act();
