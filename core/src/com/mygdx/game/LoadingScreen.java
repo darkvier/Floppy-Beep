@@ -24,7 +24,7 @@ class LoadingScreen extends BaseScreen {
 		// Set up the stage and the skin. See GameOverScreen for more comments on this.
 		stage = new Stage(new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y));
 		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-
+		
 		// Create some loading text using this skin file and position it on screen.
 		loading = new Label("Loading...", skin);
 		loading.setPosition(stage.getWidth()/2 - loading.getWidth(), stage.getHeight()/2 - loading.getHeight() / 2);

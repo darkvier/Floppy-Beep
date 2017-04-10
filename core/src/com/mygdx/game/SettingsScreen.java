@@ -33,7 +33,7 @@ class SettingsScreen extends BaseScreen {
 
 		stage = new Stage(new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y));
 
-		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+		skin = game.getManager().get("skin/uiskin.json");
 
 		TextButton save = new TextButton("Save", skin);
 		save.addCaptureListener(new ChangeListener() {

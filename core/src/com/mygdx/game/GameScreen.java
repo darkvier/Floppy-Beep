@@ -65,7 +65,6 @@ class GameScreen extends BaseScreen {
 		TextureRegion imgTextureRegion = new TextureRegion(backgroundTexture);
 		imgTextureRegion.setRegion(0, 0, backgroundTexture.getWidth() * 2000, backgroundTexture.getHeight());
 
-		//TODO esc a menu
 		//TODO cambio modo ventana, problema botones
 
 		sprite = new Sprite(imgTextureRegion);

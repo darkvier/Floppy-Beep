@@ -40,7 +40,7 @@ class GameOverScreen extends BaseScreen {
 		super(game);
 
 		stage = new Stage(new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y));
-		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+		skin = game.getManager().get("skin/uiskin.json");
 		musica = game.getManager().get("audio/gameOver.mp3");
 
 

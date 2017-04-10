@@ -55,7 +55,7 @@ class RankScreen extends BaseScreen implements InputProcessor {
 		super(game);
 
 		stage = new Stage(new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y));
-		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+		skin = game.getManager().get("skin/uiskin.json");
 
 		// Titulo
 		Label titulo = new Label("Ranking", skin);

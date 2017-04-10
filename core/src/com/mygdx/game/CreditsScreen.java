@@ -17,16 +17,14 @@ class CreditsScreen extends BaseScreen {
 	//TODO CreditScreen
 	private Stage stage;
 	private Skin skin;
-	private Label credits;
-	private TextButton back;
 
 	CreditsScreen(final MainGame game) {
 		super(game);
 
 		stage = new Stage(new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y));
-		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+		skin = game.getManager().get("skin/uiskin.json");
 
-		back = new TextButton("Back", skin);
+		TextButton back = new TextButton("Back", skin);
 		back.addCaptureListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -38,7 +36,7 @@ class CreditsScreen extends BaseScreen {
 		back.setPosition(40, 50);
 		stage.addActor(back);
 
-		credits = new Label("Jump Don't Die v1.0.2\n" +
+		Label credits = new Label("Jump Don't Die v1.0.2\n" +
 				"Copyright (C) 2015-2016 Dani Rodriguez\n" +
 				"This game is GNU GPL. Get the code at github.com/danirod/JumpDontDie\n\n" +
 
