@@ -21,13 +21,18 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.mygdx.game.entities.*;
-
-import static com.mygdx.game.Constants.*;
-import static java.lang.Math.abs;
+import com.mygdx.game.entities.EntityFactory;
+import com.mygdx.game.entities.PlayerEntity;
+import com.mygdx.game.entities.TuboEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.mygdx.game.Constants.PARAM_DIFIC;
+import static com.mygdx.game.Constants.PIXELS_IN_METER;
+import static com.mygdx.game.Constants.PLAYER_POS;
+import static com.mygdx.game.Constants.VIEWPORT_SIZE;
+import static java.lang.Math.abs;
 
 
 class GameScreen extends BaseScreen {
@@ -37,7 +42,7 @@ class GameScreen extends BaseScreen {
 	private Stage stage;
 	private World world;
 	private PlayerEntity player;
-	private List<TuboEntity> muroList = new ArrayList<TuboEntity>();
+	private List<TuboEntity> tuboList = new ArrayList<TuboEntity>();
 	private Sound jumpSound, dieSound;
 	private Music backgroundMusic;
 	private Skin skin;
@@ -89,10 +94,7 @@ class GameScreen extends BaseScreen {
 		// Texto "pulsa para comenzar"
 		pressStart = new Label("Pulsa para comenzar", skin);
 		pressStart.setPosition(stage.getWidth() / 2 - pressStart.getWidth() / 2, stage.getHeight() / 2 - 100);
-
-		//TODO oculto tras tubos
-		pressStart.setZIndex(5);
-		pressStart.toFront();
+		stage.addActor(pressStart);
 	}
 
 
@@ -119,8 +121,6 @@ class GameScreen extends BaseScreen {
 		// Texto puntuacion
 		showPoints();
 
-		// Texto "pulsa para comenzar"
-		stage.addActor(pressStart);
 
 		numTubo = 0;
 		game.scoreTmp = 0;
@@ -129,7 +129,11 @@ class GameScreen extends BaseScreen {
 		do {
 			generaTubo();
 		}
-		while (muroList.get(muroList.size() - 1).getX() < stage.getCamera().position.x + stage.getWidth());
+		while (tuboList.get(tuboList.size() - 1).getX() < stage.getCamera().position.x + stage.getWidth());
+
+		// Texto "pulsa para comenzar"
+		pressStart.setVisible(true);
+		pressStart.toFront();
 	}
 
 	/** Las cosas de pantalla se actualizan aqui muchas veces por segundo */
@@ -147,13 +151,13 @@ class GameScreen extends BaseScreen {
 
 		// Si el jugador pulsa, la partida se inicia, se oculta el texto "Press to start"
 		if (player.isStarted())
-			pressStart.remove();
+			pressStart.setVisible(false);
 
 		// Update the stage. This will update the player speed.
 		stage.act();
 
 		// Comprueba si se ha superado el siguiente tubo
-		if (numTubo < muroList.size() && muroList.get(numTubo).getX() <= player.getX()) {
+		if (numTubo < tuboList.size() && tuboList.get(numTubo).getX() <= player.getX()) {
 			game.scoreTmp++;
 			numTubo += 2;
 			generaTubo();
@@ -204,10 +208,10 @@ class GameScreen extends BaseScreen {
 	public void hide() {
 		stage.clear();
 		player.detach();
-		for (TuboEntity m : muroList) {
+		for (TuboEntity m : tuboList) {
 			m.detach();
 		}
-		muroList.clear();
+		tuboList.clear();
 		puntuacionRecord.remove();
 	}
 
@@ -221,7 +225,7 @@ class GameScreen extends BaseScreen {
 		stage.dispose(); // Borrar la escena
 
 		player.detach();
-		for (TuboEntity m : muroList) {
+		for (TuboEntity m : tuboList) {
 			m.detach();
 		}
 
@@ -296,22 +300,22 @@ class GameScreen extends BaseScreen {
 		a = Funciones.generadorFloat(aMin, aMax);
 
 		// Generador y
-		if(muroList.isEmpty()) {
+		if (tuboList.isEmpty()) {
 			y = Funciones.generadorFloat(yMin, yMax);
 		}else{
 			do {
 				y = Funciones.generadorFloat(yMin, yMax);
-				yAnt = (muroList.get(muroList.size() - 2).getHeight() + (muroList.get(muroList.size() - 1).getY() - muroList.get(muroList.size() - 2).getHeight()) / 2) / PIXELS_IN_METER;
+				yAnt = (tuboList.get(tuboList.size() - 2).getHeight() + (tuboList.get(tuboList.size() - 1).getY() - tuboList.get(tuboList.size() - 2).getHeight()) / 2) / PIXELS_IN_METER;
 				distY = abs(y - yAnt);
 			}while(distY < minDifY);
 		}
 
 
 		// Generador x
-		if (muroList.isEmpty()) {
+		if (tuboList.isEmpty()) {
 			x = 8;
 		} else {
-			xAnt = muroList.get(muroList.size() - 2).getX() / PIXELS_IN_METER;
+			xAnt = tuboList.get(tuboList.size() - 2).getX() / PIXELS_IN_METER;
 
 			if(distY < minDistY){
 				x = xAnt + distY + Funciones.generadorFloat(xMin, xMax);
@@ -323,7 +327,7 @@ class GameScreen extends BaseScreen {
 
 
 		// Generar los dos tubos
-		factory.createTubos(world, x, y, a, muroList, stage);
+		factory.createTubos(world, x, y, a, tuboList, stage);
 	}
 
 

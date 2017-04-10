@@ -9,7 +9,9 @@ import com.mygdx.game.MainGame;
 
 import java.util.List;
 
-import static com.mygdx.game.Constants.*;
+import static com.mygdx.game.Constants.ANCHO_MURO;
+import static com.mygdx.game.Constants.PIXELS_IN_METER;
+import static com.mygdx.game.Constants.VIEWPORT_SIZE;
 
 /** Clase encargada de generar las distintas Entitys de forma comoda */
 public class EntityFactory {
@@ -38,10 +40,10 @@ public class EntityFactory {
 	 * @param x coordenada x de los dos tubos (metros)
 	 * @param t altura donde se ubica el centro de la apertura entre los dos tubos (metros)
 	 * @param apertura tamaño de la apertura (metros)
-	 * @param muroList lista con todos los tubos ya existentes
+	 * @param tuboList lista con todos los tubos ya existentes
 	 * @return Object[2] con los dos tubos creados
 	 */
-	public Object[] createTubos(World world, float x, float t, float apertura, List<TuboEntity> muroList, Stage stage) {
+	public Object[] createTubos(World world, float x, float t, float apertura, List<TuboEntity> tuboList, Stage stage) {
 		Texture pipe = manager.get("pipe.png");
 		Texture pipeTop = manager.get("pipeTop.png");
 		float stageHeight = VIEWPORT_SIZE.y / PIXELS_IN_METER;
@@ -58,8 +60,8 @@ public class EntityFactory {
 		Object[] res = new Object[2];
 		res[0] = new TuboEntity(world, pipe, pipeTop, x, yInf, ANCHO_MURO, heightInf);
 		res[1] = new TuboEntity(world, pipe, pipeTop, x, ySup, ANCHO_MURO, heightSup);
-		muroList.add((TuboEntity) res[0]);
-		muroList.add((TuboEntity) res[1]);
+		tuboList.add((TuboEntity) res[0]);
+		tuboList.add((TuboEntity) res[1]);
 		stage.addActor((TuboEntity) res[0]);
 		stage.addActor((TuboEntity) res[1]);
 		return res;
