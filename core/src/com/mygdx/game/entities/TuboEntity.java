@@ -11,16 +11,16 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import static com.mygdx.game.Constants.PIXELS_IN_METER;
 
-/** Clase con las propiedades y metodos de los muros */
-public class MuroEntity extends Actor {
+/** Clase con las propiedades y metodos de los tubos */
+public class TuboEntity extends Actor {
 
 	private final Texture texturaTubo, texturaTop;
 	private World world;
 	private Body body;
 	private Fixture fixture;
 
-	/** Crea un Entity Muro (todo en metros) */
-	MuroEntity(World world, Texture texturaTubo, Texture texturaTop, float x, float y, float width, float height) {
+	/** Crea un Entity Tubo (en metros) */
+	TuboEntity(World world, Texture texturaTubo, Texture texturaTop, float x, float y, float width, float height) {
 		this.world = world;
 		this.texturaTubo = texturaTubo;
 		this.texturaTop = texturaTop;
@@ -34,7 +34,7 @@ public class MuroEntity extends Actor {
 		PolygonShape box = new PolygonShape();
 		box.setAsBox(width / 2, height / 2);
 		fixture = body.createFixture(box, 1);
-		fixture.setUserData("muro");
+		fixture.setUserData("tubo");
 		box.dispose();
 
 		// Ubicar el actor en la stage convirtiendo metros a pixeles

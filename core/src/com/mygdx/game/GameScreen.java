@@ -37,14 +37,14 @@ class GameScreen extends BaseScreen {
 	private Stage stage;
 	private World world;
 	private PlayerEntity player;
-	private List<MuroEntity> muroList = new ArrayList<MuroEntity>();
+	private List<TuboEntity> muroList = new ArrayList<TuboEntity>();
 	private Sound jumpSound, dieSound;
 	private Music backgroundMusic;
 	private Skin skin;
 	private Label puntuacion, puntuacionRecord, pressStart;
 	private Vector3 position;
 	private EntityFactory factory;
-	private int numMuro;
+	private int numTubo;
 	private Batch batch;
 
 	GameScreen(MainGame game) {
@@ -90,7 +90,7 @@ class GameScreen extends BaseScreen {
 		pressStart = new Label("Pulsa para comenzar", skin);
 		pressStart.setPosition(stage.getWidth() / 2 - pressStart.getWidth() / 2, stage.getHeight() / 2 - 100);
 
-		//TODO oculto tras muros
+		//TODO oculto tras tubos
 		pressStart.setZIndex(5);
 		pressStart.toFront();
 	}
@@ -122,12 +122,12 @@ class GameScreen extends BaseScreen {
 		// Texto "pulsa para comenzar"
 		stage.addActor(pressStart);
 
-		numMuro = 0;
+		numTubo = 0;
 		game.scoreTmp = 0;
 
-		// Generar los muros iniciales (los que se ven al inicio)
+		// Generar los tubos iniciales (los que se ven al inicio)
 		do {
-			generaMuro();
+			generaTubo();
 		}
 		while (muroList.get(muroList.size() - 1).getX() < stage.getCamera().position.x + stage.getWidth());
 	}
@@ -152,11 +152,11 @@ class GameScreen extends BaseScreen {
 		// Update the stage. This will update the player speed.
 		stage.act();
 
-		// Comprueba si se ha superado el siguiente muro
-		if (numMuro < muroList.size() && muroList.get(numMuro).getX() <= player.getX()) {
+		// Comprueba si se ha superado el siguiente tubo
+		if (numTubo < muroList.size() && muroList.get(numTubo).getX() <= player.getX()) {
 			game.scoreTmp++;
-			numMuro += 2;
-			generaMuro();
+			numTubo += 2;
+			generaTubo();
 		}
 
 		// Step the world. This will update the physics and update entity positions. No tocar
@@ -204,7 +204,7 @@ class GameScreen extends BaseScreen {
 	public void hide() {
 		stage.clear();
 		player.detach();
-		for (MuroEntity m : muroList) {
+		for (TuboEntity m : muroList) {
 			m.detach();
 		}
 		muroList.clear();
@@ -221,7 +221,7 @@ class GameScreen extends BaseScreen {
 		stage.dispose(); // Borrar la escena
 
 		player.detach();
-		for (MuroEntity m : muroList) {
+		for (TuboEntity m : muroList) {
 			m.detach();
 		}
 
@@ -276,8 +276,8 @@ class GameScreen extends BaseScreen {
 		}
 	}
 
-	/* Genera muros continuamente mientras el jugador avanza */
-	private void generaMuro() {
+	/* Genera tubos continuamente mientras el jugador avanza */
+	private void generaTubo() {
 		// Made in Ale
 		int df = game.dificultad.equals("Normal") ? 1 : game.dificultad.equals("Dificil") ? 2 : 0;
 
@@ -322,8 +322,8 @@ class GameScreen extends BaseScreen {
 		}
 
 
-		// Generar los dos muros
-		factory.createMuros(world, x, y, a, muroList, stage);
+		// Generar los dos tubos
+		factory.createTubos(world, x, y, a, muroList, stage);
 	}
 
 
@@ -351,11 +351,11 @@ class GameScreen extends BaseScreen {
 		 */
 		@Override
 		public void beginContact(Contact contact) {
-			// Si Player toca un Muro -> muere
-			if (areCollided(contact, "player", "muro")) {
+			// Si Player toca un Tubo -> muere
+			if (areCollided(contact, "player", "tubo")) {
 				// Solo los matamos si esta vivo...
 				if (player.isAlive()) {
-					playerDie("muro");
+					playerDie("tubo");
 				}
 			}
 		}

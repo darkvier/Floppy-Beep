@@ -32,36 +32,36 @@ public class EntityFactory {
 
 
 	/***
-	 * Crea dos MuroEntity en la misma coor x, usando t como centro del hueco entre los dos muros.
-	 * Los añade a la lista de muros y al stage
+	 * Crea dos TuboEntity en la misma coor x, usando t como centro del hueco entre los dos tubos.
+	 * Los añade a la lista de tubos y al stage
 	 * @param world world
-	 * @param x coordenada x de los dos muros (metros)
-	 * @param t altura donde se ubica el centro de la apertura entre los dos muros (metros)
+	 * @param x coordenada x de los dos tubos (metros)
+	 * @param t altura donde se ubica el centro de la apertura entre los dos tubos (metros)
 	 * @param apertura tamaño de la apertura (metros)
-	 * @param muroList lista con todos los muros ya existentes
-	 * @return Object[2] con los dos muros creados
+	 * @param muroList lista con todos los tubos ya existentes
+	 * @return Object[2] con los dos tubos creados
 	 */
-	public Object[] createMuros(World world, float x, float t, float apertura, List<MuroEntity> muroList, Stage stage) {
+	public Object[] createTubos(World world, float x, float t, float apertura, List<TuboEntity> muroList, Stage stage) {
 		Texture pipe = manager.get("pipe.png");
 		Texture pipeTop = manager.get("pipeTop.png");
 		float stageHeight = VIEWPORT_SIZE.y / PIXELS_IN_METER;
 
-		// Datos para muro inferior
+		// Datos para tubo inferior
 		float yInf = 0;
 		float heightInf = t - (apertura / 2);
 
-		// Datos muro superior
+		// Datos tubo superior
 		float ySup = t + (apertura / 2);
 		float heightSup = stageHeight - ySup + 2;
 
-		// Crear muros y añadir a los 2 arrays
+		// Crear tubos y añadir a los 2 arrays
 		Object[] res = new Object[2];
-		res[0] = new MuroEntity(world, pipe, pipeTop, x, yInf, ANCHO_MURO, heightInf);
-		res[1] = new MuroEntity(world, pipe, pipeTop, x, ySup, ANCHO_MURO, heightSup);
-		muroList.add((MuroEntity) res[0]);
-		muroList.add((MuroEntity) res[1]);
-		stage.addActor((MuroEntity) res[0]);
-		stage.addActor((MuroEntity) res[1]);
+		res[0] = new TuboEntity(world, pipe, pipeTop, x, yInf, ANCHO_MURO, heightInf);
+		res[1] = new TuboEntity(world, pipe, pipeTop, x, ySup, ANCHO_MURO, heightSup);
+		muroList.add((TuboEntity) res[0]);
+		muroList.add((TuboEntity) res[1]);
+		stage.addActor((TuboEntity) res[0]);
+		stage.addActor((TuboEntity) res[1]);
 		return res;
 	}
 }

@@ -18,16 +18,16 @@ public class Constants {
 	//public static final Vector2 VIEWPORT_SIZE = new Vector2(1366, 768); //16:9
 	//public static final Vector2 VIEWPORT_SIZE = new Vector2(1920, 1080); //16:9
 
+	// Los valores en metros iran de 0 a 19
 	public static float PIXELS_IN_METER = VIEWPORT_SIZE.y / 20;
 
 	//public static final String URL_RANKING = "http:///127.0.0.1/query.php";
 	static final String URL_RANKING = "http://darkvier.site40.net/query.php";
 
-	// TODO muros adaptados a la resolucion
 	// aMin, aMax,	xMin, xMax,		yMin, yMax,		minDistY,	minDifY(dif y ->yAnt)
-	// a -> apertura entre muros
+	// a -> apertura entre tubos
 	// x...
-	// y del hueco entre ambos muros
+	// y del hueco entre ambos tubos
 	// minDistY
 	// minDifY diferencia minima entre yAnt e yActual
 	static final int[][] PARAM_DIFIC = new int[][]{
