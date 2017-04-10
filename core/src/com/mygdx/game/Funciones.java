@@ -17,11 +17,12 @@ class Funciones {
 		if (Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT) && Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
 			Graphics.DisplayMode currentMode = Gdx.graphics.getDisplayMode();
 			if (game.fullScreen) {
-				Gdx.graphics.setWindowedMode(currentMode.width, currentMode.height);
+				Gdx.graphics.setWindowedMode(currentMode.width / 2, currentMode.height / 2);
 			} else {
 				Gdx.graphics.setFullscreenMode(currentMode);
 			}
 			game.fullScreen = !game.fullScreen;
+			game.settings.putBoolean("fullScreen", game.fullScreen);
 		}
 	}
 

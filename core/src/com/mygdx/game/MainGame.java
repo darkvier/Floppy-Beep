@@ -88,7 +88,7 @@ public class MainGame extends Game {
 		if (fullScreen) {
 			Gdx.graphics.setFullscreenMode(displayMode);
 		} else {
-			Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
+			Gdx.graphics.setWindowedMode(displayMode.width / 2, displayMode.height / 2);
 		}
 	}
 
