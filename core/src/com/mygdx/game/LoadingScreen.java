@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import java.io.IOException;
 
-import static com.mygdx.game.Constants.VIEWPORT_SIZE;
+import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 
 /** Pantalla que se muestra mientras cargan los Assets */
 class LoadingScreen extends BaseScreen {
@@ -22,7 +22,7 @@ class LoadingScreen extends BaseScreen {
 		super(game);
 
 		// Set up the stage and the skin. See GameOverScreen for more comments on this.
-		stage = new Stage(new ExtendViewport(VIEWPORT_SIZE.x, VIEWPORT_SIZE.y));
+		stage = new Stage(new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y));
 		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 		// Create some loading text using this skin file and position it on screen.

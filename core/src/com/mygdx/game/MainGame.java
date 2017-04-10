@@ -24,7 +24,7 @@ import okhttp3.Response;
 
 import static com.mygdx.game.Constants.PIXELS_IN_METER;
 import static com.mygdx.game.Constants.URL_RANKING;
-import static com.mygdx.game.Constants.VIEWPORT_SIZE;
+import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 
 public class MainGame extends Game {
 
@@ -141,7 +141,7 @@ public class MainGame extends Game {
 		settingsScreen = new SettingsScreen(this);
 		creditsScreen = new CreditsScreen(this);
 
-		System.out.println("VIEWPORT_SIZE :" + (int) VIEWPORT_SIZE.x + "x" + (int) VIEWPORT_SIZE.y);
+		System.out.println("VIEWP_MIN_SIZE :" + (int) VIEWP_MIN_SIZE.x + "x" + (int) VIEWP_MIN_SIZE.y);
 		System.out.println("Tamaño ventana: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
 		System.out.println("Monitor: " + Gdx.graphics.getDisplayMode());
 		System.out.println("PIXELS_IN_METER :" + (int) PIXELS_IN_METER);

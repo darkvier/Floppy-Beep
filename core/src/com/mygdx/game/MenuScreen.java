@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
-import static com.mygdx.game.Constants.VIEWPORT_SIZE;
+import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 
 
 class MenuScreen extends BaseScreen {
@@ -27,7 +27,7 @@ class MenuScreen extends BaseScreen {
 	MenuScreen(final MainGame game) {
 		super(game);
 
-		stage = new Stage(new ExtendViewport(VIEWPORT_SIZE.x, VIEWPORT_SIZE.y));
+		stage = new Stage(new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y));
 		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 		TextButton play = new TextButton("Jugar", skin);

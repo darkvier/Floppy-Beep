@@ -6,15 +6,16 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.MainGame;
 
 import java.net.MalformedURLException;
-import static com.mygdx.game.Constants.*;
+
+import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) throws MalformedURLException {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		//config.width = (int) VIEWPORT_SIZE.x;
-		//config.height = (int) VIEWPORT_SIZE.y;
-		config.width = (int) VIEWPORT_SIZE.x;
-		config.height = (int) VIEWPORT_SIZE.y;
+		//config.width = (int) VIEWP_MIN_SIZE.x;
+		//config.height = (int) VIEWP_MIN_SIZE.y;
+		config.width = (int) VIEWP_MIN_SIZE.x;
+		config.height = (int) VIEWP_MIN_SIZE.y;
 
 		config.addIcon("icon/icon16.png", Files.FileType.Internal);
 		config.addIcon("icon/icon32.png", Files.FileType.Internal);

@@ -31,7 +31,7 @@ import java.util.List;
 import static com.mygdx.game.Constants.PARAM_DIFIC;
 import static com.mygdx.game.Constants.PIXELS_IN_METER;
 import static com.mygdx.game.Constants.PLAYER_POS;
-import static com.mygdx.game.Constants.VIEWPORT_SIZE;
+import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 import static java.lang.Math.abs;
 
 
@@ -57,7 +57,7 @@ class GameScreen extends BaseScreen {
 		this.game = game;
 
 		// Cantidad de pixeles a representar (no es el tamaño ventana)
-		stage = new Stage(new ExtendViewport(VIEWPORT_SIZE.x, VIEWPORT_SIZE.y));
+		stage = new Stage(new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y));
 
 		// Imagen de fondo
 		Texture backgroundTexture = game.getManager().get("sky/sky.png");
@@ -65,11 +65,15 @@ class GameScreen extends BaseScreen {
 		TextureRegion imgTextureRegion = new TextureRegion(backgroundTexture);
 		imgTextureRegion.setRegion(0, 0, backgroundTexture.getWidth() * 2000, backgroundTexture.getHeight());
 
+		//TODO esc a menu
+		//TODO cambio modo ventana, problema botones
 
 		sprite = new Sprite(imgTextureRegion);
+
 		// Si la screen es mayor que la textura, escalar textura
 		if (stage.getHeight() > backgroundTexture.getHeight())
 			sprite.setScale(stage.getHeight() / backgroundTexture.getHeight());
+		//sprite.setScale(0.8f);
 		sprite.setCenterY(stage.getHeight() / 2);
 		batch = new SpriteBatch();
 
@@ -137,10 +141,8 @@ class GameScreen extends BaseScreen {
 	/** Las cosas de pantalla se actualizan aqui muchas veces por segundo */
 	@Override
 	public void render(float delta) {
-		// Do not forget to clean the screen.
 		Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		batch.begin();
 		sprite.draw(batch);
 		batch.setProjectionMatrix(stage.getCamera().combined);

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import static com.mygdx.game.Constants.VIEWPORT_SIZE;
+import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 
 class Background extends Actor {
 
@@ -68,6 +68,6 @@ class Background extends Actor {
 	/** Reemplaza la region que se ha dejado de ver por la otra y esta ultima por una region nueva */
 	private void resetBounds() {
 		textureRegionBounds1 = textureRegionBounds2;
-		textureRegionBounds2 = new Rectangle(VIEWPORT_SIZE.x, 0, VIEWPORT_SIZE.x, VIEWPORT_SIZE.y);
+		textureRegionBounds2 = new Rectangle(VIEWP_MIN_SIZE.x, 0, VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y);
 	}
 }

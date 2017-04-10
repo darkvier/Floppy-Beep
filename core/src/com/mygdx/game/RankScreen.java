@@ -33,7 +33,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static com.mygdx.game.Constants.URL_RANKING;
-import static com.mygdx.game.Constants.VIEWPORT_SIZE;
+import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 
 class RankScreen extends BaseScreen {
 
@@ -52,7 +52,7 @@ class RankScreen extends BaseScreen {
 	RankScreen(final MainGame game) {
 		super(game);
 
-		stage = new Stage(new ExtendViewport(VIEWPORT_SIZE.x, VIEWPORT_SIZE.y));
+		stage = new Stage(new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y));
 		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 		// Titulo

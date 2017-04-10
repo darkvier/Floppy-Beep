@@ -9,9 +9,8 @@ import com.mygdx.game.MainGame;
 
 import java.util.List;
 
-import static com.mygdx.game.Constants.ANCHO_MURO;
 import static com.mygdx.game.Constants.PIXELS_IN_METER;
-import static com.mygdx.game.Constants.VIEWPORT_SIZE;
+import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 
 /** Clase encargada de generar las distintas Entitys de forma comoda */
 public class EntityFactory {
@@ -46,7 +45,7 @@ public class EntityFactory {
 	public Object[] createTubos(World world, float x, float t, float apertura, List<TuboEntity> tuboList, Stage stage) {
 		Texture pipe = manager.get("pipe.png");
 		Texture pipeTop = manager.get("pipeTop.png");
-		float stageHeight = VIEWPORT_SIZE.y / PIXELS_IN_METER;
+		float stageHeight = VIEWP_MIN_SIZE.y / PIXELS_IN_METER;
 
 		// Datos para tubo inferior
 		float yInf = 0;
@@ -58,8 +57,8 @@ public class EntityFactory {
 
 		// Crear tubos y añadir a los 2 arrays
 		Object[] res = new Object[2];
-		res[0] = new TuboEntity(world, pipe, pipeTop, x, yInf, ANCHO_MURO, heightInf);
-		res[1] = new TuboEntity(world, pipe, pipeTop, x, ySup, ANCHO_MURO, heightSup);
+		res[0] = new TuboEntity(world, pipe, pipeTop, x, yInf, 1, heightInf);
+		res[1] = new TuboEntity(world, pipe, pipeTop, x, ySup, 1, heightSup);
 		tuboList.add((TuboEntity) res[0]);
 		tuboList.add((TuboEntity) res[1]);
 		stage.addActor((TuboEntity) res[0]);

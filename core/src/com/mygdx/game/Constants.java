@@ -6,20 +6,18 @@ public class Constants {
 
 	public static final Vector2 GRAVEDAD = new Vector2(0, -10);
 
-	public static final int ANCHO_MURO = 1;
-
 	static final Vector2 PLAYER_POS = new Vector2(1f, 10f);
 
-	//public static final Vector2 VIEWPORT_SIZE = new Vector2(640, 360); //16:9
-	public static final Vector2 VIEWPORT_SIZE = new Vector2(720, 480); //16:9
-	// public static final Vector2 VIEWPORT_SIZE = new Vector2(800, 480);
-	//public static final Vector2 VIEWPORT_SIZE = new Vector2(960, 540); //16:9
-	//public static final Vector2 VIEWPORT_SIZE = new Vector2(1280, 720);
-	//public static final Vector2 VIEWPORT_SIZE = new Vector2(1366, 768); //16:9
-	//public static final Vector2 VIEWPORT_SIZE = new Vector2(1920, 1080); //16:9
+	//public static final Vector2 VIEWP_MIN_SIZE = new Vector2(640, 360); //16:9
+	public static final Vector2 VIEWP_MIN_SIZE = new Vector2(720, 480); //16:9
+	// public static final Vector2 VIEWP_MIN_SIZE = new Vector2(800, 480);
+	//public static final Vector2 VIEWP_MIN_SIZE = new Vector2(960, 540); //16:9
+	//public static final Vector2 VIEWP_MIN_SIZE = new Vector2(1280, 720);
+	//public static final Vector2 VIEWP_MIN_SIZE = new Vector2(1366, 768); //16:9
+	//public static final Vector2 VIEWP_MIN_SIZE = new Vector2(1920, 1080); //16:9
 
 	// Los valores en metros iran de 0 a 19
-	public static float PIXELS_IN_METER = VIEWPORT_SIZE.y / 20;
+	public static float PIXELS_IN_METER = VIEWP_MIN_SIZE.y / 20;
 
 	//public static final String URL_RANKING = "http:///127.0.0.1/query.php";
 	static final String URL_RANKING = "http://darkvier.site40.net/query.php";
