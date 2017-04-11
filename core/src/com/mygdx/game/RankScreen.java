@@ -176,14 +176,14 @@ class RankScreen extends BaseScreen implements InputProcessor {
 
 			@Override
 			public void onResponse(Call call, final Response response) throws IOException {
-				System.out.print("#######\nConsulta de ranking: ");
+				System.out.println("#######\nConsulta de ranking: ");
 				String body = response.body().string();
 				loading = false;
 				HTTP_wait.setVisible(false);
 
 				if (!response.isSuccessful()) {
 					mostrarErrorHTTP();
-					throw new IOException("\nError inesperado: " + body);
+					System.out.println("\nError inesperado: " + response.message());
 				} else {
 					// Comprobar la consulta
 					Pattern p = Pattern.compile("^true$", Pattern.MULTILINE);

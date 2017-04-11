@@ -176,8 +176,7 @@ class GameOverScreen extends BaseScreen {
 				System.out.print("#######\nEnvio de puntuacion: ");
 
 				if (!response.isSuccessful()) {
-					System.out.println("Error (" + response.code() + ") " + response.message());
-					throw new IOException(response.toString());
+					System.out.println("\nError inesperado: " + response.message());
 				} else {
 					// Comprobar la consulta
 					Pattern p = Pattern.compile("^true$", Pattern.MULTILINE);
