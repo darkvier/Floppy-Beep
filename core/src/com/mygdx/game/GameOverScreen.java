@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -35,11 +36,18 @@ class GameOverScreen extends BaseScreen {
 	private Image imgRecord;
 	private Label puntuacion;
 	private Music musica;
+	private ExtendViewport viewport;
+	private OrthographicCamera camera;
 
 	GameOverScreen(final MainGame game) {
 		super(game);
 
-		stage = new Stage(new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y));
+
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y);
+		viewport = new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y, camera);
+
+		stage = new Stage(viewport);
 		skin = game.getManager().get("skin/uiskin.json");
 		musica = game.getManager().get("audio/gameOver.mp3");
 
@@ -92,6 +100,13 @@ class GameOverScreen extends BaseScreen {
 		stage.act();
 		stage.draw();
 	}
+
+	@Override
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+		camera.update();
+	}
+
 
 	@Override
 	public void hide() {

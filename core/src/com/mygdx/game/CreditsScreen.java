@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -17,11 +18,18 @@ class CreditsScreen extends BaseScreen {
 	//TODO CreditScreen
 	private Stage stage;
 	private Skin skin;
+	private ExtendViewport viewport;
+	private OrthographicCamera camera;
 
 	CreditsScreen(final MainGame game) {
 		super(game);
 
-		stage = new Stage(new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y));
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y);
+		viewport = new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y, camera);
+
+		stage = new Stage(viewport);
+
 		skin = game.getManager().get("skin/uiskin.json");
 
 		TextButton back = new TextButton("Back", skin);
@@ -47,6 +55,12 @@ class CreditsScreen extends BaseScreen {
 	@Override
 	public void show() {
 		InputManage.set(this, game, stage);
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+		camera.update();
 	}
 
 	@Override
