@@ -72,7 +72,7 @@ class GameScreen extends BaseScreen {
 		// Si la screen es mayor que la textura, escalar textura
 		if (stage.getHeight() > backgroundTexture.getHeight())
 			sprite.setScale(stage.getHeight() / backgroundTexture.getHeight());
-		//sprite.setScale(0.8f);
+
 		sprite.setCenterY(stage.getHeight() / 2);
 		batch = new SpriteBatch();
 
@@ -149,11 +149,6 @@ class GameScreen extends BaseScreen {
 		batch.setProjectionMatrix(stage.getCamera().combined);
 		batch.end();
 
-
-		// Si el jugador pulsa, la partida se inicia, se oculta el texto "Press to start"
-		if (player.isStarted())
-			pressStart.remove();
-
 		// Update the stage. This will update the player speed.
 		stage.act();
 
@@ -174,11 +169,6 @@ class GameScreen extends BaseScreen {
 			stage.getCamera().translate(speed, 0, 0);
 		}
 
-		if (game.efectos && Gdx.input.justTouched() && player.isAlive()) {
-			jumpSound.play();
-		}
-
-
 		// Si Player toca el techo muere
 		if (player.getY() + player.getHeight() >= stage.getHeight() && player.isAlive()) {
 			playerDie("techo");
@@ -186,7 +176,7 @@ class GameScreen extends BaseScreen {
 
 		// Si Player toca el suelo muere
 		if (player.getY() < 0 && player.isAlive()) {
-			playerDie("");
+			playerDie("suelo");
 		}
 
 		// Cambio textura player
@@ -198,7 +188,6 @@ class GameScreen extends BaseScreen {
 		// Ultimo paso del metodo obligatoriamente
 		stage.draw();
 	}
-
 
 	/**
 	 * Se ejecuta cuando una pantalla pasa a segundo plano
@@ -233,6 +222,16 @@ class GameScreen extends BaseScreen {
 		world.dispose();
 	}
 
+	void saltar() {
+		pressStart.remove();
+
+		if (player.isAlive()) {
+			player.jump();
+
+			if (game.efectos)
+				jumpSound.play();
+		}
+	}
 
 	// El motor detecta que el jugador a muerto
 	private void playerDie(String causa) {

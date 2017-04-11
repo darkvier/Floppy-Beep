@@ -28,6 +28,14 @@ import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 
 public class MainGame extends Game {
 
+	//TODO limpiar assets innecesarios
+	//TODO comprimir musica game over
+	//TODO musica para el menu
+	//TODO imagen record mas acorde
+
+	//TODO adaptar el juego al teclado Jugar _> saltar -> retry ->...
+	//TODO dejar de mostrar errores HTTP en el log
+
 	BaseScreen loadingScreen, menuScreen, gameScreen, gameOverScreen, rankScreen, settingsScreen, creditsScreen;
 	int[] scoreRecord = new int[3];
 	String nickname, dificultad;

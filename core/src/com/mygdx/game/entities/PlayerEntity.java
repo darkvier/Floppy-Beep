@@ -1,6 +1,5 @@
 package com.mygdx.game.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -57,9 +56,6 @@ public class PlayerEntity extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		// Always update the position of the actor when you are going to draw it, so that the
-		// position of the actor on the screen is as accurate as possible to the current position
-		// of the Box2D body.
 		setPosition((body.getPosition().x - 0.5f) * Constants.PIXELS_IN_METER,
 				(body.getPosition().y - 0.5f) * Constants.PIXELS_IN_METER);
 		batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
@@ -76,26 +72,17 @@ public class PlayerEntity extends Actor {
 
 	@Override
 	public void act(float delta) {
-		// Cuando se pulsa la pantalla
-		if (Gdx.input.justTouched()) {
-
-			// Si la partida no ha comenzado aun, se activa la gravedad
-			if (!started) {
-				started = true;
-				world.setGravity(Constants.GRAVEDAD);
-			} else {
-				jump();
-			}
-		}
-
-		// Velocidad de movimiento del jugador
-		if (alive && started) {
-			body.setLinearVelocity(game.velocidad, body.getLinearVelocity().y);
-		}
 	}
 
 	/** Aplicar impulso al saltar */
-	private void jump() {
+	public void jump() {
+		// El primer salto, habilitar movimiento y gravedad
+		if (!started) {
+			started = true;
+			body.setLinearVelocity(game.velocidad, body.getLinearVelocity().y);
+			world.setGravity(Constants.GRAVEDAD);
+		}
+
 		// Solo salta si esta vivo
 		if (alive) {
 			Vector2 position = body.getPosition();
@@ -114,9 +101,6 @@ public class PlayerEntity extends Actor {
 		if(causa.equals("techo")){
 			body.setLinearVelocity(body.getLinearVelocity().x, 0);
 		}
-		//body.setLinearVelocity(0, 0);
-		Vector2 position = body.getPosition();
-		//body.applyLinearImpulse(0, -10, position.x, position.y, true);
 		alive = false;
 	}
 
@@ -139,9 +123,5 @@ public class PlayerEntity extends Actor {
 	// Getters and Setters
 	public boolean isAlive() {
 		return alive;
-	}
-
-	public boolean isStarted() {
-		return started;
 	}
 }
