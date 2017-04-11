@@ -31,7 +31,6 @@ public class MainGame extends Game {
 	//TODO limpiar assets innecesarios
 	//TODO comprimir musica game over
 	//TODO musica para el menu
-	//TODO imagen record mas acorde
 
 	BaseScreen loadingScreen, menuScreen, gameScreen, gameOverScreen, rankScreen, settingsScreen, creditsScreen;
 	int[] scoreRecord = new int[3];
@@ -125,7 +124,7 @@ public class MainGame extends Game {
 		manager.load("audio/jump.ogg", Sound.class); //TODO cambiarsonido salto
 		manager.load("audio/song.ogg", Music.class); //TODO cambiarmusica fondo
 		manager.load("audio/gameOver.mp3", Music.class);
-		manager.load("new.png", Texture.class);
+		manager.load("medalla.png", Texture.class);
 		manager.load("loading/frame-1.gif", Texture.class);
 		manager.load("loading/frame-2.gif", Texture.class);
 		manager.load("loading/frame-3.gif", Texture.class);

@@ -80,7 +80,7 @@ class GameOverScreen extends BaseScreen {
 
 		puntuacion = new Label("", skin);
 		stage.addActor(puntuacion);
-		Texture textureNew = game.getManager().get("new.png");
+		Texture textureNew = game.getManager().get("medalla.png");
 		imgRecord = new Image(textureNew);
 	}
 
@@ -132,9 +132,7 @@ class GameOverScreen extends BaseScreen {
 
 		// Aviso de nuevo record
 		if (game.scoreTmp > game.scoreRecord[game.dificultadInt]) {
-			imgRecord.setSize(50, 50);
-			imgRecord.toFront();
-			//imgRecord.pack();
+			imgRecord.setSize(60, 75);
 			posX = puntuacion.getX() + puntuacion.getWidth() + 15;
 			posY = puntuacion.getY() + (puntuacion.getHeight() / 2) - (imgRecord.getHeight() / 2);
 			imgRecord.setPosition(posX, posY);
