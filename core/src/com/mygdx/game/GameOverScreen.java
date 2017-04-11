@@ -152,7 +152,7 @@ class GameOverScreen extends BaseScreen {
 			@Override
 			public void onFailure(Call call, IOException e) {
 				System.out.print("#######\nEnvio de puntuacion fallido ");
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 
 			@Override
@@ -170,8 +170,8 @@ class GameOverScreen extends BaseScreen {
 					if (m.lookingAt()) {
 						System.out.println("Exito");
 					} else {
-						System.out.println("Respuesta inesperada");
-						System.out.println(body);
+						System.out.println("Fallo: Respuesta inesperada");
+						//System.out.println(body);
 					}
 				}
 			}

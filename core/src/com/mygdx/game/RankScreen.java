@@ -153,10 +153,10 @@ class RankScreen extends BaseScreen implements InputProcessor {
 		client.newCall(request).enqueue(new Callback() {
 			@Override
 			public void onFailure(Call call, IOException e) {
-				System.out.print("#######\nConsulta de ranking: ");
+				System.out.print("#######\nConsulta de ranking: Error ");
 				loading = false;
 				HTTP_wait.setVisible(false);
-				System.out.println(e.toString());
+				//System.out.println(e.toString());
 				mostrarErrorHTTP();
 			}
 
@@ -180,7 +180,7 @@ class RankScreen extends BaseScreen implements InputProcessor {
 						mostrarTablas(body.substring(5, body.length()));
 					} else {
 						System.out.println("Respuesta inesperada");
-						System.out.println(body);
+						//System.out.println(body);
 						mostrarErrorHTTP();
 					}
 				}

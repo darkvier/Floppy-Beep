@@ -33,9 +33,6 @@ public class MainGame extends Game {
 	//TODO musica para el menu
 	//TODO imagen record mas acorde
 
-	//TODO adaptar el juego al teclado Jugar _> saltar -> retry ->...
-	//TODO dejar de mostrar errores HTTP en el log
-
 	BaseScreen loadingScreen, menuScreen, gameScreen, gameOverScreen, rankScreen, settingsScreen, creditsScreen;
 	int[] scoreRecord = new int[3];
 	String nickname, dificultad;
@@ -162,7 +159,6 @@ public class MainGame extends Game {
 
 		// Pantalla Principal del juego
 		setScreen(menuScreen);
-		//setScreen(gameScreen);
 	}
 
 	/** Ejecuta consulta HTTP de ranking */
@@ -182,8 +178,8 @@ public class MainGame extends Game {
 		client.newCall(request).enqueue(new Callback() {
 			@Override
 			public void onFailure(Call call, IOException e) {
-				System.out.print("#######\nConsulta de records personales:");
-				System.out.println(e.toString());
+				System.out.print("#######\nConsulta de records personales: Error");
+				//System.out.println(e.toString());
 			}
 
 			@Override
@@ -192,7 +188,7 @@ public class MainGame extends Game {
 				System.out.print("#######\nConsulta de records personales:");
 
 				if (!response.isSuccessful()) {
-					throw new IOException("\nError inesperado: " + body);
+					throw new IOException("\nError inesperado: ");
 				} else {
 					// Comprobar la consulta
 					Pattern p = Pattern.compile("^true$", Pattern.MULTILINE);
@@ -203,7 +199,7 @@ public class MainGame extends Game {
 						procesarRecords(body.substring(5, body.length()));
 					} else {
 						System.out.println("Respuesta inesperada");
-						System.out.println(body);
+						//System.out.println(body);
 					}
 				}
 			}
