@@ -81,10 +81,8 @@ public class PlayerEntity extends Actor {
 			started = true;
 			body.setLinearVelocity(game.velocidad, body.getLinearVelocity().y);
 			world.setGravity(Constants.GRAVEDAD);
-		}
-
-		// Solo salta si esta vivo
-		if (alive) {
+		} else {
+			// Solo salta si no es la primera vez que se pulsa
 			Vector2 position = body.getPosition();
 			body.applyLinearImpulse(0, game.impulso, position.x, position.y, true);
 		}
