@@ -31,7 +31,6 @@ class MenuScreen extends BaseScreen {
 	MenuScreen(final MainGame game) {
 		super(game);
 
-
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y);
 		viewport = new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y, camera);
@@ -80,13 +79,8 @@ class MenuScreen extends BaseScreen {
 			}
 		});
 
-		// Tamaño de elementos
-		play.setSize(400, 120);
-		rank.setSize(200, 60);
-		settings.setSize(200, 60);
-		credits.setSize(200, 60);
 
-		// Posiciones
+		// Logo Posicion
 		int logoX = (int) (stage.getWidth() / 2 - logo.getWidth() / 2),
 				logoY = (int) (stage.getHeight() - stage.getHeight() / 3);
 
