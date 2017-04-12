@@ -81,6 +81,8 @@ class InputManage extends InputAdapter {
 	private void pressEnter() {
 		if (altLeftPressed) {
 			Funciones.screenModeChange();
+			altLeftPressed = false;
+			enterPressed = false;
 		} else {
 			enterPressed = true;
 			if (isMenu || isGameOver)
@@ -92,6 +94,8 @@ class InputManage extends InputAdapter {
 	private void pressAltLeft() {
 		if (enterPressed) {
 			Funciones.screenModeChange();
+			altLeftPressed = false;
+			enterPressed = false;
 		} else {
 			altLeftPressed = true;
 		}
