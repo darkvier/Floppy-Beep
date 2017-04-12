@@ -51,6 +51,7 @@ class GameScreen extends BaseScreen {
 	private EntityFactory factory;
 	private int numTubo;
 	private Batch batch;
+	private boolean newRecord;
 
 	GameScreen(MainGame game) {
 		super(game);
@@ -124,6 +125,7 @@ class GameScreen extends BaseScreen {
 
 		numTubo = 0;
 		game.scoreTmp = 0;
+		newRecord = false;
 
 		// Generar los tubos iniciales (los que se ven al inicio)
 		do {
@@ -145,6 +147,8 @@ class GameScreen extends BaseScreen {
 		batch.begin();
 		sprite.draw(batch);
 		batch.setProjectionMatrix(stage.getCamera().combined);
+		int fpsX = (int) (stage.getCamera().position.x + stage.getWidth() / 2 - 50);
+		skin.getFont("default-font").draw(batch, "fps:" + Gdx.graphics.getFramesPerSecond(), fpsX, 25);
 		batch.end();
 
 		// Update the stage. This will update the player speed.
@@ -155,6 +159,8 @@ class GameScreen extends BaseScreen {
 			game.scoreTmp++;
 			numTubo += 2;
 			generaTubo();
+			if (game.scoreTmp > game.scoreRecord[game.dificultadInt])
+				newRecord = true;
 		}
 
 		// Step the world. This will update the physics and update entity positions. No tocar
@@ -268,10 +274,10 @@ class GameScreen extends BaseScreen {
 		puntuacion.toFront();
 		stage.addActor(puntuacion);
 
-		// Aviso de nuevo record
-		if (game.scoreTmp > game.scoreRecord[game.dificultadInt]) {
+		// Nuevo record
+		if (newRecord) {
 			posX = stage.getCamera().position.x - puntuacionRecord.getWidth() + stage.getWidth() / 2 - 20;
-			puntuacionRecord.setPosition(posX, posY - 20);
+			puntuacionRecord.setPosition(posX, posY - puntuacion.getHeight() * 1f);
 			puntuacionRecord.toFront();
 			stage.addActor(puntuacionRecord);
 		}
