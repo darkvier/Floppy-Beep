@@ -15,8 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -185,12 +187,30 @@ public class MainGame extends Game {
 		generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
 		skin = getManager().get("skin/uiskin.json");
+		// Fuente de las elementos de la skin
 		new TextButton("", skin).getStyle().font = fuente;
 		new Label("", skin).getStyle().font = fuente;
 		new CheckBox("", skin).getStyle().font = fuente;
 		new TextField("", skin).getStyle().font = fuente;
 		new SelectBox<Object>(skin).getStyle().font = fuente;
 		new SelectBox<Object>(skin).getStyle().listStyle.font = fuente;
+
+
+		// Tamaño de los sliders
+		Drawable dSlid = new Slider(1, 1, 1, false, skin).getStyle().knob;
+		dSlid.setMinWidth(dSlid.getMinWidth() * 2);
+		dSlid.setMinHeight(dSlid.getMinHeight() * 2);
+
+		//Tamaño de los checkBox On
+		Drawable dCheckOn = new CheckBox("", skin).getStyle().checkboxOn;
+		dCheckOn.setMinWidth(dCheckOn.getMinWidth() * 2);
+		dCheckOn.setMinHeight(dCheckOn.getMinHeight() * 2);
+
+		//Tamaño de los checkBox Off
+		Drawable dCheckOff = new CheckBox("", skin).getStyle().checkboxOff;
+		dCheckOff.setMinWidth(dCheckOff.getMinWidth() * 2);
+		dCheckOff.setMinHeight(dCheckOff.getMinHeight() * 2);
+
 	}
 
 	/** Ejecuta consulta HTTP de ranking */
