@@ -7,8 +7,16 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -43,12 +51,16 @@ public class MainGame extends Game {
 	/** Almacen de la configuracion */
 	Preferences settings;
 	private AssetManager manager;
+	public Skin skin;
 
 	@Override
 	public void create() {
-		// Carga asincrona de los Assets
-		manager = new AssetManager();
+
 		cargarAssets();
+
+		// Mientras carga, mostrar esta pantalla
+		loadingScreen = new LoadingScreen(this);
+		setScreen(loadingScreen);
 
 		Funciones.game = this;
 
@@ -58,10 +70,6 @@ public class MainGame extends Game {
 		// Cargar configuracion en memoria
 		settings = Gdx.app.getPreferences("MiConfig");
 		cargarConfig();
-
-		// Mientras carga, mostrar esta pantalla
-		loadingScreen = new LoadingScreen(this);
-		setScreen(loadingScreen);
 
 		scoreRecord = new int[3];
 		consultaHTTPRanking();
@@ -102,8 +110,9 @@ public class MainGame extends Game {
 	}
 
 
-	/** Indica los ficheros de assets a cargar en memoria */
+	/** Carga asincronamente los ficheros en memoria */
 	private void cargarAssets() {
+		manager = new AssetManager();
 		manager.load("skin/uiskin.json", Skin.class);
 		manager.load("bird/frame-1.png", Texture.class);
 		manager.load("bird/frame-2.png", Texture.class);
@@ -121,8 +130,8 @@ public class MainGame extends Game {
 		manager.load("gameover.png", Texture.class);
 		manager.load("logo.png", Texture.class);
 		manager.load("audio/die.ogg", Sound.class); //TODO cambiar sonido muerte
-		manager.load("audio/jump.ogg", Sound.class); //TODO cambiarsonido salto
-		manager.load("audio/song.ogg", Music.class); //TODO cambiarmusica fondo
+		manager.load("audio/jump.ogg", Sound.class); //TODO cambiar sonido salto
+		manager.load("audio/song.ogg", Music.class); //TODO cambiar musica fondo
 		manager.load("audio/gameOver.mp3", Music.class);
 		manager.load("medalla.png", Texture.class);
 		manager.load("loading/frame-1.gif", Texture.class);
@@ -143,6 +152,8 @@ public class MainGame extends Game {
 
 	/** Crea las Stages y muestra el menu */
 	void finishLoading() throws IOException {
+		modificarFuente();
+
 		menuScreen = new MenuScreen(this);
 		gameScreen = new GameScreen(this);
 		gameOverScreen = new GameOverScreen(this);
@@ -155,9 +166,31 @@ public class MainGame extends Game {
 		System.out.println("Monitor: " + Gdx.graphics.getDisplayMode());
 		System.out.println("PIXELS_IN_METER :" + (int) PIXELS_IN_METER);
 
-
 		// Pantalla Principal del juego
 		setScreen(menuScreen);
+	}
+
+	/** Modifica la fuente del skin por defecto con una a medida */
+	private void modificarFuente() {
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/DroidSans.ttf"));
+		//FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/DroidSansBold.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.color = Color.valueOf("#e0e0e0");
+		parameter.size = 36;
+		parameter.shadowOffsetX = -2;
+		parameter.shadowOffsetY = 2;
+		parameter.minFilter = Texture.TextureFilter.Linear;
+		parameter.magFilter = Texture.TextureFilter.Linear;
+		BitmapFont fuente = generator.generateFont(parameter); // font size 12 pixels
+		generator.dispose(); // don't forget to dispose to avoid memory leaks!
+
+		skin = getManager().get("skin/uiskin.json");
+		new TextButton("", skin).getStyle().font = fuente;
+		new Label("", skin).getStyle().font = fuente;
+		new CheckBox("", skin).getStyle().font = fuente;
+		new TextField("", skin).getStyle().font = fuente;
+		new SelectBox<Object>(skin).getStyle().font = fuente;
+		new SelectBox<Object>(skin).getStyle().listStyle.font = fuente;
 	}
 
 	/** Ejecuta consulta HTTP de ranking */
@@ -187,7 +220,7 @@ public class MainGame extends Game {
 				System.out.print("#######\nConsulta de records personales:");
 
 				if (!response.isSuccessful()) {
-					throw new IOException("\nError inesperado: ");
+					System.out.println("Error inesperado: " + response.message());
 				} else {
 					// Comprobar la consulta
 					Pattern p = Pattern.compile("^true$", Pattern.MULTILINE);
