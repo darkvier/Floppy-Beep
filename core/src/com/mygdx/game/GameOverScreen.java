@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -31,9 +32,10 @@ import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 /** Screen cuando el jugador muere */
 class GameOverScreen extends BaseScreen {
 
+	private final TextButton retry, menu;
 	private Stage stage;
 	private Skin skin;
-	private Image imgRecord;
+	private Image imgRecord, gameover;
 	private Label puntuacion;
 	private Music musica;
 	private ExtendViewport viewport;
@@ -51,37 +53,52 @@ class GameOverScreen extends BaseScreen {
 		skin = game.getManager().get("skin/uiskin.json");
 		musica = game.getManager().get("audio/gameOver.mp3");
 
+		// Fondo
+		Background backGround = new Background(game, stage, "sky/sky.png");
+		stage.addActor(backGround);
 
-		Image gameover = new Image(game.getManager().get("gameover.png", Texture.class));
-		gameover.setPosition(320 - gameover.getWidth() / 2, 320 - gameover.getHeight());
+		// Game Over
+		gameover = new Image(game.getManager().get("gameover.png", Texture.class));
+		int logoX = (int) (stage.getWidth() / 2 - gameover.getWidth() / 2),
+				logoY = (int) (stage.getHeight() - stage.getHeight() / 3);
+
+		gameover.setPosition(logoX, logoY);
 		stage.addActor(gameover);
 
-		TextButton retry = new TextButton("Retry", skin);
+		//Puntuacion
+		puntuacion = new Label("", skin);
+		stage.addActor(puntuacion);
+		Texture textureNew = game.getManager().get("medalla.png");
+		imgRecord = new Image(textureNew);
+
+
+		// Botones
+		retry = new TextButton("Reintentar", skin);
 		retry.addCaptureListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				game.setScreen(game.gameScreen);
 			}
 		});
-		retry.setSize(200, 80);
-		retry.setPosition(60, 50);
-		stage.addActor(retry);
 
-		TextButton menu = new TextButton("Menu", skin);
+		menu = new TextButton("Menu", skin);
 		menu.addCaptureListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				game.setScreen(game.menuScreen);
 			}
 		});
-		menu.setSize(200, 80);
-		menu.setPosition(380, 50);
-		stage.addActor(menu);
 
-		puntuacion = new Label("", skin);
-		stage.addActor(puntuacion);
-		Texture textureNew = game.getManager().get("medalla.png");
-		imgRecord = new Image(textureNew);
+		Table tabButton = new Table();
+		tabButton.row().fill().pad(35).size(250, 75);
+		tabButton.setSize(stage.getWidth() / 2, stage.getHeight() / 5);
+
+		int tabY = (int) (stage.getHeight() - stage.getHeight() / 1.25);
+		tabButton.setPosition(stage.getWidth() / 2 - tabButton.getWidth() / 2, tabY);
+
+		tabButton.add(retry);
+		tabButton.add(menu);
+		stage.addActor(tabButton);
 	}
 
 	@Override
@@ -126,13 +143,15 @@ class GameOverScreen extends BaseScreen {
 		// Puntuacion
 		puntuacion.setText("Score: " + game.scoreTmp);
 		puntuacion.pack();
-		posX = stage.getWidth() / 2 - puntuacion.getWidth() / 2;
-		puntuacion.setPosition(posX, 200);
+		int puntX = (int) (stage.getWidth() / 2 - puntuacion.getWidth() / 2),
+				puntY = (int) (stage.getHeight() - stage.getHeight() / 2);
+		puntuacion.setPosition(puntX, puntY);
 		puntuacion.toFront();
 
-		// Aviso de nuevo record
+		// Nuevo record
 		if (game.scoreTmp > game.scoreRecord[game.dificultadInt]) {
-			imgRecord.setSize(60, 75);
+
+			imgRecord.setSize(101, 125);
 			posX = puntuacion.getX() + puntuacion.getWidth() + 15;
 			posY = puntuacion.getY() + (puntuacion.getHeight() / 2) - (imgRecord.getHeight() / 2);
 			imgRecord.setPosition(posX, posY);
