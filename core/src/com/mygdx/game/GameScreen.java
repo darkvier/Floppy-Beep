@@ -206,6 +206,7 @@ class GameScreen extends BaseScreen {
 		}
 		tuboList.clear();
 		puntuacionRecord.remove();
+		backgroundMusic.stop();
 	}
 
 
