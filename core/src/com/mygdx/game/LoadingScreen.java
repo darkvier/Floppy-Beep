@@ -47,7 +47,8 @@ class LoadingScreen extends BaseScreen {
 		} else {
 			// Si no esta cargado, mostramos el porcentaje de carga
 			int progress = (int) (game.getManager().getProgress() * 100);
-			loading.setText("Loading... " + progress + "%");
+			loading.setText("Cargando... " + progress + "%");
+			loading.setFontScale(2);
 		}
 
 		stage.act();

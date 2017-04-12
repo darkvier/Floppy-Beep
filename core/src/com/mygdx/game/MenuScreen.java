@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -30,6 +31,7 @@ class MenuScreen extends BaseScreen {
 	MenuScreen(final MainGame game) {
 		super(game);
 
+
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y);
 		viewport = new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y, camera);
@@ -42,7 +44,11 @@ class MenuScreen extends BaseScreen {
 		TextButton settings = new TextButton("Opciones", skin);
 		TextButton credits = new TextButton("Creditos", skin);
 		nickText = new Label(game.nickname, skin);
-		Image logo = new Image(game.getManager().get("logo.png", Texture.class));
+
+		Texture t = game.getManager().get("logo.png", Texture.class);
+		t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		Image logo = new Image(t);
+
 		Background backGround = new Background(game, stage, "sky/sky.png");
 
 		// Funciones a ejecutar cuando se pulsan los distintos botones
@@ -75,26 +81,37 @@ class MenuScreen extends BaseScreen {
 		});
 
 		// Tamaño de elementos
-		play.setSize(200, 60);
+		play.setSize(400, 120);
 		rank.setSize(200, 60);
 		settings.setSize(200, 60);
 		credits.setSize(200, 60);
 
 		// Posiciones
-		logo.setPosition(500 - logo.getWidth() / 2, 370 - logo.getHeight());
-		play.setPosition(40, 220);
-		rank.setPosition(100, 150);
-		settings.setPosition(160, 80);
-		credits.setPosition(220, 10);
+		int logoX = (int) (stage.getWidth() / 2 - logo.getWidth() / 2),
+				logoY = (int) (stage.getHeight() - stage.getHeight() / 3);
+
+		logo.setPosition(logoX, logoY);
+
+
+		// Botones
+		Table tabButton = new Table();
+		tabButton.row().expand().fill().pad(35);
+		tabButton.setSize(stage.getWidth(), stage.getHeight() / 5);
+
+		int tabY = (int) (stage.getHeight() - stage.getHeight() / 1.25);
+		tabButton.setPosition(stage.getWidth() / 2 - tabButton.getWidth() / 2, tabY);
+
+		tabButton.add(play);
+		tabButton.add(rank);
+		tabButton.add(settings);
+		tabButton.add(credits);
+
 
 		// Añadir al Stage
 		stage.addActor(backGround);
 		stage.addActor(logo);
-		stage.addActor(play);
-		stage.addActor(rank);
-		stage.addActor(settings);
-		stage.addActor(credits);
 		stage.addActor(nickText);
+		stage.addActor(tabButton);
 	}
 
 	@Override
@@ -112,9 +129,7 @@ class MenuScreen extends BaseScreen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0.2f, 0.3f, 0.5f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		stage.act();
 		stage.draw();
 	}
@@ -134,13 +149,6 @@ class MenuScreen extends BaseScreen {
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
-	}
-
-
-	/** Detecta cuando se pulsa la tecla atras o escape y cierra el juego */
-	private void detectarEscape() {
-		if (Gdx.input.isKeyPressed(Input.Keys.BACK) || Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
-			Gdx.app.exit();
 	}
 
 	/** Muestra un popup pidiendo al usuario que introduzca su nombre */
