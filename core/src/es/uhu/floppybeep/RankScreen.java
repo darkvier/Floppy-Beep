@@ -212,7 +212,7 @@ class RankScreen extends BaseScreen implements InputProcessor {
 	/** Procesa los datos del ranking y crea las tablas de puntuacion */
 	@SuppressWarnings("unchecked")
 	private void mostrarTablas(String datos) {
-		//TODO
+
 		// Botones dificultad
 		botFacil = new TextButton("Facil", skin24, "toggle");
 		botFacil.setChecked(true);

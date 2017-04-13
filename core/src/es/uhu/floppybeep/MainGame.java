@@ -38,8 +38,6 @@ import static es.uhu.floppybeep.Constants.VIEWP_MIN_SIZE;
 
 public class MainGame extends Game {
 
-	//TODO limpiar assets innecesarios
-	//TODO comprimir musica game over
 	//TODO musica para el menu
 
 	BaseScreen menuScreen, gameScreen, gameOverScreen, rankScreen, settingsScreen;
@@ -132,11 +130,9 @@ public class MainGame extends Game {
 		manager.load("bird/gotHit/frame-1.png", Texture.class);
 		manager.load("bird/gotHit/frame-2.png", Texture.class);
 		manager.load("sky/sky.png", Texture.class);
-		manager.load("gameover.png", Texture.class);
-		manager.load("logo.png", Texture.class);
 		manager.load("audio/die.ogg", Sound.class); //TODO cambiar sonido muerte
 		manager.load("audio/jump.ogg", Sound.class); //TODO cambiar sonido salto
-		manager.load("audio/song.ogg", Music.class); //TODO cambiar musica fondo
+		manager.load("audio/song.mp3", Music.class); //TODO cambiar musica fondo
 		manager.load("audio/gameOver.mp3", Music.class);
 		manager.load("medalla.png", Texture.class);
 		manager.load("loading/frame-1.gif", Texture.class);
@@ -176,7 +172,7 @@ public class MainGame extends Game {
 
 	/** Modifica la skin36 por defecto con una a medida */
 	private void modificarSkin80() {
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.local("skin/DroidSansBold.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/DroidSansBold.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.color = Color.valueOf("#e0e0e0");
 		parameter.size = 80;
@@ -190,7 +186,7 @@ public class MainGame extends Game {
 		parameter.magFilter = Texture.TextureFilter.Linear;
 		BitmapFont fuente = generator.generateFont(parameter);
 
-		skin80 = new Skin(Gdx.files.local("skin/uiskin.json"));
+		skin80 = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 		// Fuente de las elementos de la skin36
 		new Label("", skin80).getStyle().font = fuente;
@@ -200,7 +196,7 @@ public class MainGame extends Game {
 
 	/** Modifica la skin36 por defecto con una a medida */
 	private void modificarSkin36() {
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.local("skin/DroidSans.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/DroidSans.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.color = Color.valueOf("#e0e0e0");
 		parameter.size = 36;
@@ -210,7 +206,7 @@ public class MainGame extends Game {
 		parameter.magFilter = Texture.TextureFilter.Linear;
 		BitmapFont fuente = generator.generateFont(parameter);
 
-		skin36 = new Skin(Gdx.files.local("skin/uiskin.json"));
+		skin36 = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 		// Fuente de las elementos de la skin36
 		new TextButton("", skin36).getStyle().font = fuente;
@@ -241,8 +237,8 @@ public class MainGame extends Game {
 
 	/** Modifica la skin36 por defecto con una a medida */
 	private void modificarSkin24() {
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.local("skin/DroidSans.ttf"));
-		//FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.local("skin/DroidSansBold.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/DroidSans.ttf"));
+		//FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/DroidSansBold.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.color = Color.valueOf("#e0e0e0");
 		parameter.size = 24;
@@ -252,7 +248,7 @@ public class MainGame extends Game {
 		parameter.magFilter = Texture.TextureFilter.Linear;
 		BitmapFont fuente = generator.generateFont(parameter);
 
-		skin24 = new Skin(Gdx.files.local("skin/uiskin.json"));
+		skin24 = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 		new Label("", skin24).getStyle().font = fuente;
 		new TextButton("", skin24, "toggle").getStyle().font = fuente;
@@ -265,7 +261,7 @@ public class MainGame extends Game {
 
 
 	/** Ejecuta consulta HTTP de ranking */
-	private void consultaHTTPRanking() {
+	void consultaHTTPRanking() {
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(URL_RANKING).newBuilder();
 		urlBuilder.addQueryParameter("accion", "listarRecords");
 		urlBuilder.addQueryParameter("Nickname", nickname);

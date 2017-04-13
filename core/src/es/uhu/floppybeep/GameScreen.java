@@ -87,12 +87,11 @@ class GameScreen extends BaseScreen {
 		// Carga de Assets
 		jumpSound = game.getManager().get("audio/jump.ogg");
 		dieSound = game.getManager().get("audio/die.ogg");
-		backgroundMusic = game.getManager().get("audio/song.ogg");
+		backgroundMusic = game.getManager().get("audio/song.mp3");
 		skin36 = game.skin36;
 
 		// Texto puntuacion
 		puntuacion = new Label("", skin36);
-		stage.addActor(puntuacion);
 		puntuacionRecord = new Label("¡Record personal!", skin36);
 
 		// Texto "pulsa para comenzar"
@@ -121,13 +120,15 @@ class GameScreen extends BaseScreen {
 			backgroundMusic.play();
 		}
 
-		// Texto puntuacion
-		showPoints();
-
-
 		numTubo = 0;
 		game.scoreTmp = 0;
 		newRecord = false;
+
+		// Texto puntuacion
+		showPoints();
+		puntuacionRecord.setVisible(false);
+		stage.addActor(puntuacion);
+		stage.addActor(puntuacionRecord);
 
 		// Generar los tubos iniciales (los que se ven al inicio)
 		do {
@@ -161,8 +162,9 @@ class GameScreen extends BaseScreen {
 			game.scoreTmp++;
 			numTubo += 2;
 			generaTubo();
-			if (game.scoreTmp > game.scoreRecord[game.dificultadInt])
+			if (game.scoreTmp > game.scoreRecord[game.dificultadInt]) {
 				newRecord = true;
+			}
 		}
 
 		// Step the world. This will update the physics and update entity positions. No tocar
@@ -201,13 +203,13 @@ class GameScreen extends BaseScreen {
 	@Override
 	public void hide() {
 		Gdx.input.setInputProcessor(null);
+		puntuacionRecord.setVisible(false);
 		stage.clear();
 		player.detach();
 		for (TuboEntity m : tuboList) {
 			m.detach();
 		}
 		tuboList.clear();
-		puntuacionRecord.remove();
 		backgroundMusic.stop();
 	}
 
@@ -277,11 +279,12 @@ class GameScreen extends BaseScreen {
 		puntuacion.toFront();
 
 		// Nuevo record
+		posX = stage.getCamera().position.x - puntuacionRecord.getWidth() + stage.getWidth() / 2 - 20;
+		puntuacionRecord.setPosition(posX, posY - puntuacion.getHeight() * 1f);
+		puntuacionRecord.toFront();
+
 		if (newRecord) {
-			posX = stage.getCamera().position.x - puntuacionRecord.getWidth() + stage.getWidth() / 2 - 20;
-			puntuacionRecord.setPosition(posX, posY - puntuacion.getHeight() * 1f);
-			puntuacionRecord.toFront();
-			stage.addActor(puntuacionRecord);
+			puntuacionRecord.setVisible(true);
 		}
 	}
 
@@ -327,9 +330,7 @@ class GameScreen extends BaseScreen {
 			} else {
 				x = xAnt + distY/* - Funciones.generadorFloat(xMin, xMax)*/;
 			}
-			//x = xAnt + distY + Funciones.generadorFloat(xMin, xMax);
 		}
-
 
 		// Generar los dos tubos
 		factory.createTubos(world, x, y, a, tuboList, stage);

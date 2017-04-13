@@ -207,5 +207,6 @@ class SettingsScreen extends BaseScreen {
 		game.settings.putBoolean("fullScreen", fullScreenCheck.isChecked());
 		game.settings.flush();
 		game.cargarConfig();
+		game.consultaHTTPRanking();
 	}
 }
