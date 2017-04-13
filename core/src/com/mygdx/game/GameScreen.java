@@ -45,7 +45,7 @@ class GameScreen extends BaseScreen {
 	private List<TuboEntity> tuboList = new ArrayList<TuboEntity>();
 	private Sound jumpSound, dieSound;
 	private Music backgroundMusic;
-	private Skin skin;
+	private Skin skin36;
 	private Label puntuacion, puntuacionRecord, pressStart;
 	private Vector3 position;
 	private EntityFactory factory;
@@ -87,14 +87,15 @@ class GameScreen extends BaseScreen {
 		jumpSound = game.getManager().get("audio/jump.ogg");
 		dieSound = game.getManager().get("audio/die.ogg");
 		backgroundMusic = game.getManager().get("audio/song.ogg");
-		skin = game.getManager().get("skin/uiskin.json");
+		skin36 = game.skin36;
 
 		// Texto puntuacion
-		puntuacion = new Label("", skin);
-		puntuacionRecord = new Label("¡Record personal!", skin);
+		puntuacion = new Label("", skin36);
+		stage.addActor(puntuacion);
+		puntuacionRecord = new Label("¡Record personal!", skin36);
 
 		// Texto "pulsa para comenzar"
-		pressStart = new Label("Pulsa para comenzar", skin);
+		pressStart = new Label("Pulsa para comenzar", skin36);
 		pressStart.setPosition(stage.getWidth() / 2 - pressStart.getWidth() / 2, stage.getHeight() / 2 - 100);
 	}
 
@@ -148,7 +149,7 @@ class GameScreen extends BaseScreen {
 		sprite.draw(batch);
 		batch.setProjectionMatrix(stage.getCamera().combined);
 		int fpsX = (int) (stage.getCamera().position.x + stage.getWidth() / 2 - 50);
-		skin.getFont("default-font").draw(batch, "fps:" + Gdx.graphics.getFramesPerSecond(), fpsX, 25);
+		skin36.getFont("default-font").draw(batch, "fps:" + Gdx.graphics.getFramesPerSecond(), fpsX, 25);
 		batch.end();
 
 		// Update the stage. This will update the player speed.
@@ -273,7 +274,6 @@ class GameScreen extends BaseScreen {
 		float posY = stage.getHeight() - puntuacion.getHeight() - 10;
 		puntuacion.setPosition(posX, posY);
 		puntuacion.toFront();
-		stage.addActor(puntuacion);
 
 		// Nuevo record
 		if (newRecord) {

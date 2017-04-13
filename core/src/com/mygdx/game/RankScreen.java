@@ -40,8 +40,9 @@ import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 
 class RankScreen extends BaseScreen implements InputProcessor {
 
+	private final Label titulo;
 	private Stage stage;
-	private Skin skin;
+	private Skin skin36, skin24;
 	private Label HTTP_Error, HTTP_wait;
 	private Table[] tablaRank;
 	private Table tablaMain;
@@ -56,32 +57,38 @@ class RankScreen extends BaseScreen implements InputProcessor {
 
 	RankScreen(final MainGame game) {
 		super(game);
-
-
+		skin36 = game.skin36;
+		skin24 = game.skin24;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y);
 		viewport = new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y, camera);
 
 		stage = new Stage(viewport);
-		skin = game.getManager().get("skin/uiskin.json");
+
+		// Fondo
+		Background backGround = new Background(game, stage, "sky/sky.png");
+		stage.addActor(backGround);
 
 		// Titulo
-		Label titulo = new Label("Ranking", skin);
-		titulo.setFontScale(1.2f);
+		titulo = new Label("Ranking", skin36);
 		titulo.setPosition(stage.getWidth() / 2 - titulo.getWidth() / 2, stage.getHeight() - 50);
 		stage.addActor(titulo);
 
 		//Botones dificultad
 		tablaMain = new Table();
 
+		//tablaMain.setDebug(true);
+
 		//Tablas de rankings
 		tablaRank = new Table[3];
 		for (int i = 0; i < 3; i++) {
 			tablaRank[i] = new Table();
+			tablaRank[i].top().padTop(10); //Distancia a botones
+			tablaRank[i].defaults().pad(13); //Distancia entre celdas
 		}
 
 		// Back Button
-		TextButton back = new TextButton("Back", skin);
+		TextButton back = new TextButton("Atras", skin36);
 		back.addCaptureListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -95,7 +102,7 @@ class RankScreen extends BaseScreen implements InputProcessor {
 
 		// Indicadores de carga
 		cargarAnimacion();
-		HTTP_wait = new Label("Conectando con el servidor del ranking", skin);
+		HTTP_wait = new Label("Conectando con el servidor del ranking", skin36);
 		HTTP_wait.setPosition(posXloading-HTTP_wait.getWidth()/2, posYloading - 100);
 		stage.addActor(HTTP_wait);
 	}
@@ -144,7 +151,7 @@ class RankScreen extends BaseScreen implements InputProcessor {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		skin.dispose();
+		skin36.dispose();
 	}
 
 	/**
@@ -205,10 +212,28 @@ class RankScreen extends BaseScreen implements InputProcessor {
 	/** Procesa los datos del ranking y crea las tablas de puntuacion */
 	@SuppressWarnings("unchecked")
 	private void mostrarTablas(String datos) {
+		//TODO
+		// Botones dificultad
+		botFacil = new TextButton("Facil", skin24, "toggle");
+		botFacil.setChecked(true);
+		botNormal = new TextButton("Normal", skin24, "toggle");
+		botDificil = new TextButton("Dificil", skin24, "toggle");
+
+		// Listeners
+		ChangeListener tab_listener = new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				tablaRank[0].setVisible(botFacil.isChecked());
+				tablaRank[1].setVisible(botNormal.isChecked());
+				tablaRank[2].setVisible(botDificil.isChecked());
+			}
+		};
+		botFacil.addListener(tab_listener);
+		botNormal.addListener(tab_listener);
+		botDificil.addListener(tab_listener);
+
+		// Agrupar botones en un elemento
 		HorizontalGroup botGroup = new HorizontalGroup();
-		botFacil = new TextButton("Facil", skin, "toggle");
-		botNormal = new TextButton("Normal", skin, "toggle");
-		botDificil = new TextButton("Dificil", skin, "toggle");
 		botGroup.addActor(botFacil);
 		botGroup.addActor(botNormal);
 		botGroup.addActor(botDificil);
@@ -216,9 +241,16 @@ class RankScreen extends BaseScreen implements InputProcessor {
 		tablaMain.add(botGroup);
 		tablaMain.row();
 
-		tablaMain.setWidth(stage.getWidth());
-		tablaMain.setPosition(stage.getWidth() / 2 - tablaMain.getWidth() / 2, stage.getHeight() - 100);
-		tablaMain.center().top();
+		// Grupo de botones tipo toggle
+		ButtonGroup grupoBotones = new ButtonGroup(botFacil, botNormal, botDificil);
+		grupoBotones.setMinCheckCount(1);
+		grupoBotones.setMaxCheckCount(1);
+
+		// Posicion tabla principal
+		int tabX = (int) (stage.getWidth() / 2 - tablaMain.getWidth() / 2),
+				tabY = (int) (titulo.getY() - titulo.getHeight() / 2);
+		tablaMain.setPosition(tabX, tabY);
+		tablaMain.top();
 
 		// Cargar datos
 		String[] datosRanking = datos.split("\t\t\n");
@@ -234,40 +266,20 @@ class RankScreen extends BaseScreen implements InputProcessor {
 				// Cada campo de la tabla
 				String[] campos = jug.split("\t");
 
-				Label nickname = new Label(campos[0], skin);
-				Label puntuacion = new Label(campos[1], skin);
-				Label fecha = new Label(campos[2], skin);
+				Label nickname = new Label(campos[0], skin24);
+				Label puntuacion = new Label(campos[1], skin24);
+				Label fecha = new Label(campos[2], skin24);
 
-				tablaRank[i].top();
-				tablaRank[i].add(nickname).left().pad(10);
-				tablaRank[i].add(puntuacion).pad(10);
-				tablaRank[i].add(fecha).right().pad(10);
 				tablaRank[i].row();
+				tablaRank[i].add(nickname).left();
+				tablaRank[i].add(puntuacion);
+				tablaRank[i].add(fecha).right();
 			}
 			content.add(tablaRank[i]);
 		}
 		tablaMain.add(content);
 
-		// Listen to changes in the tab button
-		ChangeListener tab_listener = new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				tablaRank[0].setVisible(botFacil.isChecked());
-				tablaRank[1].setVisible(botNormal.isChecked());
-				tablaRank[2].setVisible(botDificil.isChecked());
-			}
-		};
-		botFacil.addListener(tab_listener);
-		botNormal.addListener(tab_listener);
-		botDificil.addListener(tab_listener);
 
-		// Let only one tab button be checked at a time
-		ButtonGroup grupoBotones = new ButtonGroup();
-		grupoBotones.setMinCheckCount(1);
-		grupoBotones.setMaxCheckCount(1);
-		grupoBotones.add(botFacil);
-		grupoBotones.add(botNormal);
-		grupoBotones.add(botDificil);
 		stage.addActor(tablaMain);
 	}
 
@@ -276,10 +288,10 @@ class RankScreen extends BaseScreen implements InputProcessor {
 	 * Muestra un error si el HTTP ha fallado
 	 */
 	private void mostrarErrorHTTP() {
-		BitmapFont labelFont = skin.get("default-font", BitmapFont.class);
+		BitmapFont labelFont = skin36.get("default-font", BitmapFont.class);
 		labelFont.getData().markupEnabled = true;
 
-		HTTP_Error = new Label("[RED]Error al obtener datos del ranking", skin);
+		HTTP_Error = new Label("[RED]Error al obtener datos del ranking", skin36);
 		HTTP_Error.setPosition(stage.getWidth() / 2 - HTTP_Error.getWidth() / 2, posYloading - 100);
 		stage.addActor(HTTP_Error);
 	}

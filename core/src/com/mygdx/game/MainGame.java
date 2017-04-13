@@ -42,7 +42,7 @@ public class MainGame extends Game {
 	//TODO comprimir musica game over
 	//TODO musica para el menu
 
-	BaseScreen loadingScreen, menuScreen, gameScreen, gameOverScreen, rankScreen, settingsScreen, creditsScreen;
+	BaseScreen loadingScreen, menuScreen, gameScreen, gameOverScreen, rankScreen, settingsScreen;
 	int[] scoreRecord = new int[3];
 	String nickname, dificultad;
 	int dificultadInt, scoreTmp;
@@ -53,11 +53,14 @@ public class MainGame extends Game {
 	/** Almacen de la configuracion */
 	Preferences settings;
 	private AssetManager manager;
-	public Skin skin;
+	public Skin skin36, skin24;
 
 	@Override
 	public void create() {
 
+		modificarSkin36();
+		modificarSkin24();
+		
 		cargarAssets();
 
 		// Mientras carga, mostrar esta pantalla
@@ -115,7 +118,6 @@ public class MainGame extends Game {
 	/** Carga asincronamente los ficheros en memoria */
 	private void cargarAssets() {
 		manager = new AssetManager();
-		manager.load("skin/uiskin.json", Skin.class);
 		manager.load("bird/frame-1.png", Texture.class);
 		manager.load("bird/frame-2.png", Texture.class);
 		manager.load("bird/frame-3.png", Texture.class);
@@ -154,14 +156,12 @@ public class MainGame extends Game {
 
 	/** Crea las Stages y muestra el menu */
 	void finishLoading() throws IOException {
-		modificarFuente();
 
 		menuScreen = new MenuScreen(this);
 		gameScreen = new GameScreen(this);
 		gameOverScreen = new GameOverScreen(this);
 		rankScreen = new RankScreen(this);
 		settingsScreen = new SettingsScreen(this);
-		creditsScreen = new CreditsScreen(this);
 
 		System.out.println("VIEWP_MIN_SIZE :" + (int) VIEWP_MIN_SIZE.x + "x" + (int) VIEWP_MIN_SIZE.y);
 		System.out.println("Tamaño ventana: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
@@ -172,10 +172,10 @@ public class MainGame extends Game {
 		setScreen(menuScreen);
 	}
 
-	/** Modifica la fuente del skin por defecto con una a medida */
-	private void modificarFuente() {
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/DroidSans.ttf"));
-		//FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/DroidSansBold.ttf"));
+
+	/** Modifica la skin36 por defecto con una a medida */
+	private void modificarSkin36() {
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.local("skin/DroidSans.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.color = Color.valueOf("#e0e0e0");
 		parameter.size = 36;
@@ -183,35 +183,61 @@ public class MainGame extends Game {
 		parameter.shadowOffsetY = 2;
 		parameter.minFilter = Texture.TextureFilter.Linear;
 		parameter.magFilter = Texture.TextureFilter.Linear;
-		BitmapFont fuente = generator.generateFont(parameter); // font size 12 pixels
-		generator.dispose(); // don't forget to dispose to avoid memory leaks!
+		BitmapFont fuente = generator.generateFont(parameter);
 
-		skin = getManager().get("skin/uiskin.json");
-		// Fuente de las elementos de la skin
-		new TextButton("", skin).getStyle().font = fuente;
-		new Label("", skin).getStyle().font = fuente;
-		new CheckBox("", skin).getStyle().font = fuente;
-		new TextField("", skin).getStyle().font = fuente;
-		new SelectBox<Object>(skin).getStyle().font = fuente;
-		new SelectBox<Object>(skin).getStyle().listStyle.font = fuente;
+		skin36 = new Skin(Gdx.files.local("skin/uiskin.json"));
+
+		// Fuente de las elementos de la skin36
+		new TextButton("", skin36).getStyle().font = fuente;
+		new Label("", skin36).getStyle().font = fuente;
+		new CheckBox("", skin36).getStyle().font = fuente;
+		new TextField("", skin36).getStyle().font = fuente;
+		new SelectBox<Object>(skin36).getStyle().font = fuente;
+		new SelectBox<Object>(skin36).getStyle().listStyle.font = fuente;
 
 
 		// Tamaño de los sliders
-		Drawable dSlid = new Slider(1, 1, 1, false, skin).getStyle().knob;
+		Drawable dSlid = new Slider(1, 1, 1, false, skin36).getStyle().knob;
 		dSlid.setMinWidth(dSlid.getMinWidth() * 2);
 		dSlid.setMinHeight(dSlid.getMinHeight() * 2);
 
 		//Tamaño de los checkBox On
-		Drawable dCheckOn = new CheckBox("", skin).getStyle().checkboxOn;
+		Drawable dCheckOn = new CheckBox("", skin36).getStyle().checkboxOn;
 		dCheckOn.setMinWidth(dCheckOn.getMinWidth() * 2);
 		dCheckOn.setMinHeight(dCheckOn.getMinHeight() * 2);
 
 		//Tamaño de los checkBox Off
-		Drawable dCheckOff = new CheckBox("", skin).getStyle().checkboxOff;
+		Drawable dCheckOff = new CheckBox("", skin36).getStyle().checkboxOff;
 		dCheckOff.setMinWidth(dCheckOff.getMinWidth() * 2);
 		dCheckOff.setMinHeight(dCheckOff.getMinHeight() * 2);
 
+		generator.dispose();
 	}
+
+	/** Modifica la skin36 por defecto con una a medida */
+	private void modificarSkin24() {
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.local("skin/DroidSans.ttf"));
+		//FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.local("skin/DroidSansBold.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.color = Color.valueOf("#e0e0e0");
+		parameter.size = 24;
+		parameter.shadowOffsetX = -2;
+		parameter.shadowOffsetY = 2;
+		parameter.minFilter = Texture.TextureFilter.Linear;
+		parameter.magFilter = Texture.TextureFilter.Linear;
+		BitmapFont fuente = generator.generateFont(parameter);
+
+		skin24 = new Skin(Gdx.files.local("skin/uiskin.json"));
+
+		new Label("", skin24).getStyle().font = fuente;
+		new TextButton("", skin24, "toggle").getStyle().font = fuente;
+		TextButton.TextButtonStyle a = new TextButton("", skin24, "toggle").getStyle();
+		a.checked.setMinWidth(100);
+		a.checked.setMinHeight(40);
+
+		generator.dispose();
+	}
+
 
 	/** Ejecuta consulta HTTP de ranking */
 	private void consultaHTTPRanking() {

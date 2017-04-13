@@ -23,7 +23,7 @@ import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 class MenuScreen extends BaseScreen {
 
 	private Stage stage;
-	private Skin skin;
+	private Skin skin36;
 	private Label nickText;
 	private ExtendViewport viewport;
 	private OrthographicCamera camera;
@@ -36,18 +36,21 @@ class MenuScreen extends BaseScreen {
 		viewport = new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y, camera);
 
 		stage = new Stage(viewport);
-		skin = game.getManager().get("skin/uiskin.json");
+		skin36 = game.skin36;
 
-		TextButton play = new TextButton("Jugar", skin);
-		TextButton rank = new TextButton("Ranking", skin);
-		TextButton settings = new TextButton("Opciones", skin);
-		TextButton credits = new TextButton("Creditos", skin);
-		nickText = new Label(game.nickname, skin);
+		TextButton play = new TextButton("Jugar", skin36);
+		TextButton rank = new TextButton("Ranking", skin36);
+		TextButton settings = new TextButton("Opciones", skin36);
 
+		// Nickname
+		nickText = new Label(game.nickname, skin36);
+
+		// Logo
 		Texture t = game.getManager().get("logo.png", Texture.class);
 		t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		Image logo = new Image(t);
 
+		// Fondo
 		Background backGround = new Background(game, stage, "sky/sky.png");
 
 		// Funciones a ejecutar cuando se pulsan los distintos botones
@@ -72,13 +75,6 @@ class MenuScreen extends BaseScreen {
 			}
 		});
 
-		credits.addCaptureListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				game.setScreen(game.creditsScreen);
-			}
-		});
-
 
 		// Logo Posicion
 		int logoX = (int) (stage.getWidth() / 2 - logo.getWidth() / 2),
@@ -92,13 +88,12 @@ class MenuScreen extends BaseScreen {
 		tabButton.row().expand().fill().pad(35);
 		tabButton.setSize(stage.getWidth(), stage.getHeight() / 5);
 
-		int tabY = (int) (stage.getHeight() - stage.getHeight() / 1.25);
+		int tabY = (int) (stage.getHeight() - stage.getHeight() / 1.15);
 		tabButton.setPosition(stage.getWidth() / 2 - tabButton.getWidth() / 2, tabY);
 
 		tabButton.add(play);
 		tabButton.add(rank);
 		tabButton.add(settings);
-		tabButton.add(credits);
 
 
 		// Añadir al Stage
@@ -142,23 +137,23 @@ class MenuScreen extends BaseScreen {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		skin.dispose();
+		skin36.dispose();
 	}
 
 	/** Muestra un popup pidiendo al usuario que introduzca su nombre */
 	private void askNickname() {
 
 		// Campo texto para escribir
-		final TextField nickTxt = new TextField("", skin);
+		final TextField nickTxt = new TextField("", skin36);
 
 		// Pop-Up
-		Dialog dialog = new Dialog("Elige tu nombre de jugador", skin, "dialog") {
+		Dialog dialog = new Dialog("Elige tu nombre de jugador", skin36, "dialog") {
 			public void result(Object obj) {
 				// Una vez se pulsas aceptar
 				if (obj.equals(true)) {
 					// Se actualiza el nombre y se muestra en un Label
 					game.nickname = nickTxt.getText();
-					nickText = new Label(nickTxt.getText(), skin);
+					nickText = new Label(nickTxt.getText(), skin36);
 
 					nickText.setPosition(stage.getWidth() - nickText.getWidth() - 20, 10);
 					stage.addActor(nickText);

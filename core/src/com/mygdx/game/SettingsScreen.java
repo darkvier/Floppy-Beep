@@ -22,7 +22,7 @@ import static com.mygdx.game.Constants.VIEWP_MIN_SIZE;
 class SettingsScreen extends BaseScreen {
 
 	private Stage stage;
-	private Skin skin;
+	private Skin skin36;
 	private Label volText, impText, velText;
 	private Slider volumenSlid, impulsoSlid, velocidadSlid;
 	private CheckBox musica, efectos, fullScreenCheck;
@@ -39,22 +39,22 @@ class SettingsScreen extends BaseScreen {
 		viewport = new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y, camera);
 
 		stage = new Stage(viewport);
-		skin = game.getManager().get("skin/uiskin.json");
+		skin36 = game.skin36;
 
 		// Fondo
 		Background backGround = new Background(game, stage, "sky/sky.png");
 		stage.addActor(backGround);
 
 		// Nombre
-		Label etiquetaNickname = new Label("Nombre Jugador: ", skin);
-		nickname = new TextField(game.nickname, skin);
+		Label etiquetaNickname = new Label("Nombre Jugador: ", skin36);
+		nickname = new TextField(game.nickname, skin36);
 
 		// Audio
-		Label etiquetaAudio = new Label("AUDIO", skin);
-		musica = new CheckBox(" Musica", skin);
-		efectos = new CheckBox(" Efectos", skin);
-		volText = new Label("Volumen: 999%", skin);
-		volumenSlid = new Slider(0, 100, 10, false, skin);
+		Label etiquetaAudio = new Label("AUDIO", skin36);
+		musica = new CheckBox(" Musica", skin36);
+		efectos = new CheckBox(" Efectos", skin36);
+		volText = new Label("Volumen: 999%", skin36);
+		volumenSlid = new Slider(0, 100, 10, false, skin36);
 		volumenSlid.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				volText.setText("Volumen: " + volumenSlid.getValue() + "%");
@@ -62,32 +62,32 @@ class SettingsScreen extends BaseScreen {
 		});
 
 		// Juego
-		Label etiquetaJuego = new Label("JUEGO", skin);
-		impText = new Label("Impulso: 999%", skin);
-		impulsoSlid = new Slider(10, 30, 5, false, skin);
+		Label etiquetaJuego = new Label("JUEGO", skin36);
+		impText = new Label("Impulso: 999%", skin36);
+		impulsoSlid = new Slider(10, 30, 5, false, skin36);
 		impulsoSlid.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				impText.setText("Impulso: " + impulsoSlid.getValue());
 			}
 		});
 
-		velText = new Label("Velocidad: 999%", skin);
-		velocidadSlid = new Slider(1, 8, 1, false, skin);
+		velText = new Label("Velocidad: 999%", skin36);
+		velocidadSlid = new Slider(1, 8, 1, false, skin36);
 		velocidadSlid.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				velText.setText("Velocidad: " + velocidadSlid.getValue());
 			}
 		});
 
-		fullScreenCheck = new CheckBox("Full Screen", skin);
+		fullScreenCheck = new CheckBox("Pantalla completa", skin36);
 
 		// DIFICULTAD
-		Label etiquetaDificultad = new Label("Dificultad:", skin);
-		dificultad = new SelectBox<Object>(skin);
+		Label etiquetaDificultad = new Label("Dificultad:", skin36);
+		dificultad = new SelectBox<Object>(skin36);
 		dificultad.setItems("Facil", "Normal", "Dificil");
 
 		// Botones
-		TextButton save = new TextButton("Save", skin);
+		TextButton save = new TextButton("Guardar", skin36);
 		save.addCaptureListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -96,7 +96,7 @@ class SettingsScreen extends BaseScreen {
 			}
 		});
 
-		TextButton back = new TextButton("Cancel", skin);
+		TextButton back = new TextButton("Cancelar", skin36);
 		back.addCaptureListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -138,7 +138,7 @@ class SettingsScreen extends BaseScreen {
 		tabla.add(fullScreenCheck).colspan(2).align(Align.left);
 
 		tabla.row().padTop(padT);
-		tabla.add(new Label("", skin)).colspan(2);
+		tabla.add(new Label("", skin36)).colspan(2);
 		tabla.add(etiquetaDificultad).padRight(padR);
 		tabla.add(dificultad).fillX().align(Align.left);
 
@@ -192,7 +192,7 @@ class SettingsScreen extends BaseScreen {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		skin.dispose();
+		skin36.dispose();
 	}
 
 	/** Guarda la conf en disco y la carga en el MainGame */

@@ -34,7 +34,7 @@ class GameOverScreen extends BaseScreen {
 
 	private final TextButton retry, menu;
 	private Stage stage;
-	private Skin skin;
+	private Skin skin36;
 	private Image imgRecord, gameover;
 	private Label puntuacion;
 	private Music musica;
@@ -50,7 +50,7 @@ class GameOverScreen extends BaseScreen {
 		viewport = new ExtendViewport(VIEWP_MIN_SIZE.x, VIEWP_MIN_SIZE.y, camera);
 
 		stage = new Stage(viewport);
-		skin = game.getManager().get("skin/uiskin.json");
+		skin36 = game.skin36;
 		musica = game.getManager().get("audio/gameOver.mp3");
 
 		// Fondo
@@ -66,14 +66,14 @@ class GameOverScreen extends BaseScreen {
 		stage.addActor(gameover);
 
 		//Puntuacion
-		puntuacion = new Label("", skin);
+		puntuacion = new Label("", skin36);
 		stage.addActor(puntuacion);
 		Texture textureNew = game.getManager().get("medalla.png");
 		imgRecord = new Image(textureNew);
 
 
 		// Botones
-		retry = new TextButton("Reintentar", skin);
+		retry = new TextButton("Reintentar", skin36);
 		retry.addCaptureListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -81,7 +81,7 @@ class GameOverScreen extends BaseScreen {
 			}
 		});
 
-		menu = new TextButton("Menu", skin);
+		menu = new TextButton("Menu", skin36);
 		menu.addCaptureListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -134,7 +134,7 @@ class GameOverScreen extends BaseScreen {
 
 	@Override
 	public void dispose() {
-		skin.dispose();
+		skin36.dispose();
 		stage.dispose();
 	}
 
