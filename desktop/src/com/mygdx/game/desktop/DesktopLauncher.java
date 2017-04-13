@@ -16,7 +16,7 @@ public class DesktopLauncher {
 		config.width = (int) VIEWP_MIN_SIZE.x;
 		config.height = (int) VIEWP_MIN_SIZE.y;
 		config.forceExit = true; //Forzar terminacion app al salir
-		config.vSyncEnabled = false;
+		config.vSyncEnabled = true;
 
 		config.addIcon("icon/icon16.png", Files.FileType.Internal);
 		config.addIcon("icon/icon32.png", Files.FileType.Internal);
