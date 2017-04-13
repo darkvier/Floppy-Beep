@@ -1,10 +1,10 @@
-build.gradle
+#build.gradle
 gdx-setup.jar
-gradle.properties
-gradlew
-gradlew.bat
-settings.gradle
-gradle/
+#gradle.properties
+#gradlew
+#gradlew.bat
+#settings.gradle
+#gradle/
 
 
 
