@@ -1,4 +1,4 @@
-package es.uhu.floppybeep;
+package es.uhu.floppybeep.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -7,9 +7,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import es.uhu.floppybeep.MainGame;
+
 import static es.uhu.floppybeep.Constants.VIEWP_MIN_SIZE;
 
-class Background extends Actor {
+public class Background extends Actor {
 
 	private final TextureRegion textureRegion;
 	private final MainGame game;
@@ -20,7 +22,7 @@ class Background extends Actor {
 	private int velocFondo = 100;
 	private Texture texture;
 
-	Background(MainGame game, Stage stage, String textura) {
+	public Background(MainGame game, Stage stage, String textura) {
 		this.game = game;
 		this.stage = stage;
 

@@ -1,9 +1,11 @@
-package es.uhu.floppybeep;
+package es.uhu.floppybeep.screens;
 
 import com.badlogic.gdx.Screen;
 
+import es.uhu.floppybeep.MainGame;
+
 /** Screen desde la que heredan todas las demas */
-abstract class BaseScreen implements Screen {
+public abstract class BaseScreen implements Screen {
 
 	MainGame game;
 

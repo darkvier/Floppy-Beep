@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import es.uhu.floppybeep.screens.*;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -32,26 +33,26 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static es.uhu.floppybeep.Constants.PIXELS_IN_METER;
-import static es.uhu.floppybeep.Constants.URL_RANKING;
-import static es.uhu.floppybeep.Constants.VIEWP_MIN_SIZE;
+import static es.uhu.floppybeep.Constants.*;
 
 public class MainGame extends Game {
 
 	//TODO musica para el menu
 
-	BaseScreen menuScreen, gameScreen, gameOverScreen, rankScreen, settingsScreen;
-	int[] scoreRecord = new int[3];
-	String nickname, dificultad;
-	int dificultadInt, scoreTmp;
-	boolean fullScreen, efectos, musica;
-	float volumen;
+	public BaseScreen menuScreen, gameScreen, gameOverScreen, rankScreen, settingsScreen;
+	public int[] scoreRecord = new int[3];
+	public String nickname, dificultad;
+	public int dificultadInt;
+	public int scoreTmp;
+	public boolean fullScreen, efectos;
+	public boolean musica;
+	public float volumen;
 	public float impulso;
 	public float velocidad;
 	/** Almacen de la configuracion */
-	Preferences settings;
+	public Preferences settings;
 	private AssetManager manager;
-	Skin skin80, skin36, skin24;
+	public Skin skin80, skin36, skin24;
 
 	@Override
 	public void create() {
@@ -63,7 +64,7 @@ public class MainGame extends Game {
 		cargarAssets();
 
 		// Mientras carga, mostrar esta pantalla
-		BaseScreen loadingScreen = new LoadingScreen(this);
+		LoadingScreen loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);
 
 		Funciones.game = this;
@@ -81,7 +82,7 @@ public class MainGame extends Game {
 
 
 	/** Carga la conf del "disco" en memoria, en caso de no existir conf, usa valores predefinidos */
-	void cargarConfig() {
+	public void cargarConfig() {
 		this.nickname = settings.getString("nickname", "");
 		this.dificultad = settings.getString("dificultad", "Normal");
 		switch (dificultad.charAt(0)) {
@@ -152,7 +153,7 @@ public class MainGame extends Game {
 	}
 
 	/** Crea las Stages y muestra el menu */
-	void finishLoading() throws IOException {
+	public void finishLoading() throws IOException {
 
 		menuScreen = new MenuScreen(this);
 		gameScreen = new GameScreen(this);
@@ -261,7 +262,7 @@ public class MainGame extends Game {
 
 
 	/** Ejecuta consulta HTTP de ranking */
-	void consultaHTTPRanking() {
+	public void consultaHTTPRanking() {
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(URL_RANKING).newBuilder();
 		urlBuilder.addQueryParameter("accion", "listarRecords");
 		urlBuilder.addQueryParameter("Nickname", nickname);

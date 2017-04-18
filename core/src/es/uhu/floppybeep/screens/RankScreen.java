@@ -1,8 +1,6 @@
-package es.uhu.floppybeep;
+package es.uhu.floppybeep.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -28,6 +26,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import es.uhu.floppybeep.entities.Background;
+import es.uhu.floppybeep.InputManage;
+import es.uhu.floppybeep.MainGame;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -38,7 +39,7 @@ import okhttp3.Response;
 import static es.uhu.floppybeep.Constants.URL_RANKING;
 import static es.uhu.floppybeep.Constants.VIEWP_MIN_SIZE;
 
-class RankScreen extends BaseScreen implements InputProcessor {
+public class RankScreen extends BaseScreen {
 
 	private final Label titulo;
 	private Stage stage;
@@ -55,7 +56,7 @@ class RankScreen extends BaseScreen implements InputProcessor {
 	private ExtendViewport viewport;
 	private OrthographicCamera camera;
 
-	RankScreen(final MainGame game) {
+	public RankScreen(final MainGame game) {
 		super(game);
 		skin36 = game.skin36;
 		skin24 = game.skin24;
@@ -76,8 +77,6 @@ class RankScreen extends BaseScreen implements InputProcessor {
 
 		//Botones dificultad
 		tablaMain = new Table();
-
-		//tablaMain.setDebug(true);
 
 		//Tablas de rankings
 		tablaRank = new Table[3];
@@ -111,6 +110,9 @@ class RankScreen extends BaseScreen implements InputProcessor {
 	public void show() {
 		consultaHTTP();
 		InputManage.set(this, game, stage);
+
+		posXloading = camera.viewportWidth / 2/* - myAnimation.getKeyFrame(0).getTexture().getWidth()/2*/;
+		posYloading = camera.viewportHeight - (camera.viewportHeight / 3);
 	}
 
 
@@ -119,16 +121,22 @@ class RankScreen extends BaseScreen implements InputProcessor {
 		Gdx.gl.glClearColor(0.2f, 0.3f, 0.5f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		stage.act();
+		stage.draw();
 		if (loading) {
 			stateTime += delta;
 			TextureRegion currentFrame = myAnimation.getKeyFrame(stateTime, true);
 			spriteBatch.begin();
-			spriteBatch.draw(currentFrame, posXloading, posYloading, 50, 50); // Draw current frame at (50, 50)
+			spriteBatch.draw(currentFrame, 300, 300, 50, 50);
 			spriteBatch.end();
 		}
+		//TODO arreglar coordenadas gif cargando
 
-		stage.act();
-		stage.draw();
+		System.out.println("A "+stage.getWidth()+" "+stage.getHeight());
+		System.out.println("B "+camera.viewportWidth+" "+camera.viewportHeight);
+		System.out.println("C "+posXloading+" "+posYloading);
+		System.out.println("D "+viewport.getScreenWidth()+" "+viewport.getScreenHeight());
+
 	}
 
 	@Override
@@ -310,51 +318,5 @@ class RankScreen extends BaseScreen implements InputProcessor {
 		spriteBatch = new SpriteBatch();
 		stateTime = 0f;
 
-		posXloading = stage.getWidth() / 2;
-		posYloading = stage.getHeight() - (stage.getHeight() / 3);
-	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-
-		if (keycode == Input.Keys.BACK) {
-			game.setScreen(game.menuScreen);
-		}
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		return false;
 	}
 }

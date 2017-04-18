@@ -8,16 +8,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 
-class InputManage extends InputAdapter {
+public class InputManage extends InputAdapter {
 
 	private final MainGame game;
 	private final boolean isMenu;
 	private final boolean isGame, isGameOver;
-	private GameScreen gameScreen = null;
+	private es.uhu.floppybeep.screens.GameScreen gameScreen = null;
 	private boolean altLeftPressed, enterPressed;
 
 	// Metodo estatico para usar esta misma clase de forma amigable
-	static void set(Screen screen, MainGame game, Stage stage) {
+	public static void set(Screen screen, MainGame game, Stage stage) {
 		InputMultiplexer multiplexer = new InputMultiplexer(stage, stage, new InputManage(screen, game));
 		Gdx.input.setInputProcessor(multiplexer);
 	}
@@ -30,7 +30,7 @@ class InputManage extends InputAdapter {
 		this.isGameOver = screen.getClass().getSimpleName().equals("GameOverScreen");
 
 		if (isGame)
-			gameScreen = (GameScreen) screen;
+			gameScreen = (es.uhu.floppybeep.screens.GameScreen) screen;
 	}
 
 

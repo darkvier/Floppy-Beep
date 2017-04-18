@@ -5,7 +5,7 @@ import com.badlogic.gdx.Graphics;
 
 import java.util.Random;
 
-class Funciones {
+public class Funciones {
 
 	private static Random rng = new Random(System.nanoTime());
 	public static MainGame game;
@@ -24,7 +24,7 @@ class Funciones {
 		game.settings.putBoolean("fullScreen", game.fullScreen);
 	}
 
-	static float generadorFloat(float low, float high) {
+	public static float generadorFloat(float low, float high) {
 		return rng.nextFloat() * (high - low) + low;
 	}
 

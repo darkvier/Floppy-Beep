@@ -1,4 +1,4 @@
-package es.uhu.floppybeep;
+package es.uhu.floppybeep.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,16 +9,18 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import java.io.IOException;
 
+import es.uhu.floppybeep.MainGame;
+
 import static es.uhu.floppybeep.Constants.VIEWP_MIN_SIZE;
 
 /** Pantalla que se muestra mientras cargan los Assets */
-class LoadingScreen extends BaseScreen {
+public class LoadingScreen extends BaseScreen {
 
 	private Stage stage;
 	private Skin skin;
 	private Label loading;
 
-	LoadingScreen(MainGame game) {
+	public LoadingScreen(MainGame game) {
 		super(game);
 
 		// Set up the stage and the skin. See GameOverScreen for more comments on this.

@@ -1,4 +1,4 @@
-package es.uhu.floppybeep;
+package es.uhu.floppybeep.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -25,6 +25,9 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.uhu.floppybeep.Funciones;
+import es.uhu.floppybeep.InputManage;
+import es.uhu.floppybeep.MainGame;
 import es.uhu.floppybeep.entities.EntityFactory;
 import es.uhu.floppybeep.entities.PlayerEntity;
 import es.uhu.floppybeep.entities.TuboEntity;
@@ -36,7 +39,7 @@ import static es.uhu.floppybeep.Constants.VIEWP_MIN_SIZE;
 import static java.lang.Math.abs;
 
 
-class GameScreen extends BaseScreen {
+public class GameScreen extends BaseScreen {
 
 	private static Sprite sprite;
 	public MainGame game;
@@ -54,7 +57,7 @@ class GameScreen extends BaseScreen {
 	private Batch batch;
 	private boolean newRecord;
 
-	GameScreen(MainGame game) {
+	public GameScreen(MainGame game) {
 		super(game);
 		this.game = game;
 
@@ -231,7 +234,7 @@ class GameScreen extends BaseScreen {
 		world.dispose();
 	}
 
-	void saltar() {
+	public void saltar() {
 		pressStart.remove();
 
 		if (player.isAlive()) {

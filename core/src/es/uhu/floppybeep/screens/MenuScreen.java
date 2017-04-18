@@ -1,4 +1,4 @@
-package es.uhu.floppybeep;
+package es.uhu.floppybeep.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -15,10 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+import es.uhu.floppybeep.entities.Background;
+import es.uhu.floppybeep.InputManage;
+import es.uhu.floppybeep.MainGame;
+
 import static es.uhu.floppybeep.Constants.VIEWP_MIN_SIZE;
 
 
-class MenuScreen extends BaseScreen {
+public class MenuScreen extends BaseScreen {
 
 	private Stage stage;
 	private Skin skin36;
@@ -26,7 +30,7 @@ class MenuScreen extends BaseScreen {
 	private ExtendViewport viewport;
 	private OrthographicCamera camera;
 
-	MenuScreen(final MainGame game) {
+	public MenuScreen(final MainGame game) {
 		super(game);
 
 		camera = new OrthographicCamera();

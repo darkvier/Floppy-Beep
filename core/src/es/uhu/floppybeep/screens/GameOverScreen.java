@@ -1,4 +1,4 @@
-package es.uhu.floppybeep;
+package es.uhu.floppybeep.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import es.uhu.floppybeep.entities.Background;
+import es.uhu.floppybeep.InputManage;
+import es.uhu.floppybeep.MainGame;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -30,7 +33,7 @@ import static es.uhu.floppybeep.Constants.URL_RANKING;
 import static es.uhu.floppybeep.Constants.VIEWP_MIN_SIZE;
 
 /** Screen cuando el jugador muere */
-class GameOverScreen extends BaseScreen {
+public class GameOverScreen extends BaseScreen {
 
 	private final TextButton retry, menu;
 	private Stage stage;
@@ -41,7 +44,7 @@ class GameOverScreen extends BaseScreen {
 	private ExtendViewport viewport;
 	private OrthographicCamera camera;
 
-	GameOverScreen(final MainGame game) {
+	public GameOverScreen(final MainGame game) {
 		super(game);
 
 
